@@ -17,6 +17,7 @@
         # esbenp.prettier-vscode   # Install manually
         # vscodevim.vim            # Install manually
         # pylint.vscode-pylint     # Install manually
+        # ryuta46.multi-command    # For complex keybinding sequences - install manually
       ];
       
       # Note: userSettings commented out to prevent backup conflicts
@@ -70,6 +71,7 @@
             "after" = ["<esc>"];
           }
         ];
+        
         # Nix language settings
         "nix.enableLanguageServer" = true;
         "nix.serverPath" = "nil";
@@ -78,7 +80,29 @@
           "editor.tabSize" = 2;
           "editor.autoIndent" = "advanced";
         };
+        
+        # Multi-command extension configuration for complex keybinding sequences
+        "multiCommand.commands" = [
+          {
+            "command" = "multiCommand.openChatInNewWindow";
+            "label" = "Open Copilot Chat in New Window";
+            "description" = "Opens chat panel, then opens it in new window and closes it in original";
+            "sequence" = [
+              "workbench.action.chat.open"
+              "workbench.action.chat.openInNewWindow"
+              "workbench.action.chat.toggle"
+            ];
+          }
+        ];
       };
+      
+      # Custom keybindings for VS Code
+      keybindings = [
+        {
+          "key" = "meta+i";  # Super+I (Meta key is Super/Cmd on Linux)
+          "command" = "multiCommand.openChatInNewWindow";
+        }
+      ];
     };
   };
 
