@@ -6,7 +6,6 @@
     git
     kitty
     hyprland
-    vscode
     neofetch
     home-manager
     cbonsai
@@ -15,6 +14,7 @@
     btop
     alacritty
     tmux
+    picom
   ];
 
   fonts.packages = with pkgs; [

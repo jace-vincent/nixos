@@ -15,6 +15,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
             home-manager.users.jacev = import ./home.nix;
           }
         ];
