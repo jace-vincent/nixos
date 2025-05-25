@@ -104,10 +104,19 @@
         "window.titleBarStyle" = "custom";
         "workbench.colorTheme" = "Default Dark+";
         # Better settings for development
-        "editor.fontSize" = 14;
+        "editor.fontSize" = 16;
         "editor.fontFamily" = "JetBrains Mono";
         "editor.fontLigatures" = true;
         "terminal.integrated.fontFamily" = "JetBrains Mono";
+        "terminal.integrated.fontSize" = 16;
+        # UI Font sizes for better visibility
+        "workbench.tree.indent" = 20; # More spacing in explorer
+        "chat.editor.fontSize" = 16; # Copilot chat font size
+        "scm.inputFontSize" = 16; # Source control input font size
+        "debug.console.fontSize" = 16; # Debug console font size
+        "markdown.preview.fontSize" = 16; # Markdown preview font size
+        # Zoom level affects all UI elements including explorer, panels, etc.
+        "window.zoomLevel" = 0.5; # Increase overall UI scale (0.5 = 150%, 1.0 = 200%)
         # Force VS Code to use bash as default and load full configuration
         "terminal.integrated.defaultProfile.linux" = "bash";
         "terminal.integrated.profiles.linux" = {
