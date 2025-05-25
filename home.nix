@@ -5,7 +5,7 @@
 
   programs.zsh.enable = true;
   programs.git.enable = true;
-ii
+
   programs.alacritty = {
     enable = true;
     settings = {
