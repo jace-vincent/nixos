@@ -16,6 +16,8 @@
     alacritty
     tmux
     picom
+    # JSON processor for VS Code settings manipulation
+    jq
     # Nix language server for VS Code
     nil
     # Image viewer and wallpaper manager

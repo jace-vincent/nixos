@@ -21,24 +21,9 @@
         "window.titleBarStyle" = "custom";
         "workbench.colorTheme" = "Default Dark+";
         
-        # PYWAL_COLORS_START - Auto-generated colors from current wallpaper
-        "workbench.colorCustomizations" = {
-          "editor.background" = "#011116";
-          "editor.foreground" = "#d5dbd7";
-          "activityBar.background" = "#011116";
-          "activityBar.foreground" = "#d5dbd7";
-          "sideBar.background" = "#011116";
-          "sideBar.foreground" = "#d5dbd7";
-          "panel.background" = "#011116";
-          "panel.border" = "#6A8777";
-          "terminal.background" = "#011116";
-          "terminal.foreground" = "#d5dbd7";
-          "statusBar.background" = "#6A8777";
-          "statusBar.foreground" = "#011116";
-          "editor.selectionBackground" = "#84897A";
-          "editor.lineHighlightBackground" = "#2a2d2e";
-        };
-        # PYWAL_COLORS_END
+        # NOTE: Colors are dynamically managed by wallpaper-manager script
+        # The script updates workbench.colorCustomizations in settings.json directly
+        
         # Better settings for development
         "editor.fontSize" = 16;
         "editor.fontFamily" = "JetBrains Mono";
