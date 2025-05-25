@@ -10,8 +10,9 @@
     neofetch
     home-manager
     cbonsai
-    # vim # Uncomment if you want vim
-    # wget # Uncomment if you want wget
+    wget
+    curl
+    btop 
   ];
   environment.variables.EDITOR = "vscode";
   nixpkgs.config.allowUnfree = true;
