@@ -15,6 +15,8 @@
     alacritty
     tmux
     picom
+    # Nix language server for VS Code
+    nil
   ];
 
   fonts.packages = with pkgs; [

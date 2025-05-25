@@ -11,6 +11,8 @@
         bradlc.vscode-tailwindcss
         esbenp.prettier-vscode
         vscodevim.vim
+        # Nix language support
+        bbenoist.nix
         # Note: GlassIt and similar transparency extensions need manual installation
       ];
       userSettings = {
@@ -54,6 +56,14 @@
             "after" = ["<esc>"];
           }
         ];
+        # Nix language settings
+        "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "nil";
+        "[nix]" = {
+          "editor.insertSpaces" = true;
+          "editor.tabSize" = 2;
+          "editor.autoIndent" = "advanced";
+        };
       };
     };
   };
