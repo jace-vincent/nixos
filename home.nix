@@ -97,6 +97,7 @@
         ms-vscode.cpptools
         bradlc.vscode-tailwindcss
         esbenp.prettier-vscode
+        vscodevim.vim
         # Note: GlassIt and similar transparency extensions need manual installation
       ];
       userSettings = {
@@ -133,6 +134,13 @@
         "terminal.integrated.env.linux" = {
           "SHELL" = "${pkgs.bash}/bin/bash";
         };
+        # Vim key bindings
+        "vim.insertModeKeyBindings" = [
+          {
+            "before" = ["k" "j"];
+            "after" = ["<esc>"];
+          }
+        ];
       };
     };
   };
