@@ -5,6 +5,15 @@
 
   programs.zsh.enable = true;
   programs.git.enable = true;
+ii
+  programs.alacritty = {
+    enable = true;
+    settings = {
+      window = {
+        opacity = 0.85; # Set to your desired transparency (0.0 = fully transparent, 1.0 = opaque)
+      };
+    };
+  };
 
   home.stateVersion = "24.05";
 }
