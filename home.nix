@@ -3,7 +3,36 @@
   home.username = "jacev";
   home.homeDirectory = "/home/jacev";
 
-  programs.zsh.enable = true;
+  programs.bash = {
+    enable = true;
+    shellAliases = {
+      ll = "ls -la";
+      la = "ls -la";
+      lta = "ls -lta";
+      l = "ls -l";
+      nrs = "sudo nixos-rebuild switch --flake .#nixos";
+      ".." = "cd ..";
+    };
+  };
+
+  programs.zsh = {
+    enable = true;
+    # Configure a custom prompt
+    initContent = ''
+      # Custom prompt - similar to what you might be used to
+      PROMPT='%F{green}%n@%m%f:%F{blue}%~%f$ '
+      # Alternative: Show just username and directory
+      # PROMPT='%F{cyan}%n%f:%F{blue}%~%f$ '
+    '';
+    shellAliases = {
+      ll = "ls -la";
+      la = "ls -la";
+      lta = "ls -lta";
+      l = "ls -l";
+      nrs = "sudo nixos-rebuild switch --flake .#nixos";
+      ".." = "cd ..";
+    };
+  };
   programs.git.enable = true;
 
   programs.alacritty = {
@@ -11,6 +40,49 @@
     settings = {
       window = {
         opacity = 0.85; # Set to your desired transparency (0.0 = fully transparent, 1.0 = opaque)
+        decorations = "full"; # "full", "none", "transparent", "buttonless"
+        startup_mode = "Maximized"; # "Windowed", "Maximized", "Fullscreen
+        padding = {
+          x = 10;
+          y = 10;
+        };
+      };
+      
+      font = {
+        normal = {
+          family = "JetBrains Mono";
+          style = "Regular";
+        };
+        bold = {
+          family = "JetBrains Mono";
+          style = "Bold";
+        };
+        italic = {
+          family = "JetBrains Mono";
+          style = "Italic";
+        };
+        size = 18;
+      };
+      
+      colors = {
+        # Optional: Define your color scheme here
+        primary = {
+          background = "#1e1e1e";
+          foreground = "#d4d4d4";
+        };
+      };
+      
+      cursor = {
+        style = {
+          shape = "Block"; # "Block", "Underline", "Beam"
+          blinking = "Off"; # "Never", "Off", "On", "Always"
+        };
+      };
+      
+      terminal = {
+        shell = {
+          program = "${pkgs.bash}/bin/bash";
+        };
       };
     };
   };
@@ -36,6 +108,22 @@
         "editor.fontFamily" = "JetBrains Mono";
         "editor.fontLigatures" = true;
         "terminal.integrated.fontFamily" = "JetBrains Mono";
+        # Force VS Code to use bash as default and load full configuration
+        "terminal.integrated.defaultProfile.linux" = "bash";
+        "terminal.integrated.profiles.linux" = {
+          "bash" = {
+            "path" = "${pkgs.bash}/bin/bash";
+            "args" = [ "-l" "-i" ]; # Login and interactive shell to ensure aliases load
+          };
+          "zsh" = {
+            "path" = "${pkgs.zsh}/bin/zsh";
+            "args" = [ "-l" "-i" ];
+          };
+        };
+        # Environment variables for terminal
+        "terminal.integrated.env.linux" = {
+          "SHELL" = "${pkgs.bash}/bin/bash";
+        };
       };
     };
   };
