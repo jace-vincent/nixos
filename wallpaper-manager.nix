@@ -48,6 +48,10 @@
           # Generate color scheme with pywal
           if command -v wal &> /dev/null; then
               wal -i "$selected_wallpaper"
+              
+              # Update VS Code colors in the Nix configuration
+              ~/.local/bin/update-vscode-nix-colors
+              
               echo "Wallpaper and color scheme updated!"
           else
               echo "Wallpaper set! (pywal not available for color generation)"
@@ -55,6 +59,83 @@
       else
           echo "No wallpaper selected"
       fi
+    '';
+    executable = true;
+  };
+
+  # Script to update VS Code settings with pywal colors
+  home.file.".local/bin/update-vscode-nix-colors" = {
+    text = ''
+      #!/usr/bin/env bash
+      
+      # Path to pywal colors
+      COLORS_FILE="$HOME/.cache/wal/colors"
+      VSCODE_NIX_FILE="/etc/nixos/vscode.nix"
+      
+      # Check if pywal colors exist
+      if [ ! -f "$COLORS_FILE" ]; then
+          echo "Pywal colors not found. Run 'wal -i /path/to/image' first."
+          exit 1
+      fi
+      
+      # Read pywal colors
+      mapfile -t colors < "$COLORS_FILE"
+      
+      # Extract specific colors (pywal generates 16 colors)
+      bg_color="''${colors[0]}"      # Background
+      fg_color="''${colors[7]}"      # Foreground  
+      accent_color="''${colors[1]}"  # Accent/highlight
+      selection_color="''${colors[2]}" # Selection
+      
+      echo "Updating VS Code configuration with pywal colors..."
+      
+      # Create a temporary file with updated colors
+      cat > "/tmp/vscode-colors.nix" << EOF
+        # Pywal integration - Auto-generated colors from current wallpaper
+        "workbench.colorCustomizations" = {
+          "editor.background" = "$bg_color";
+          "editor.foreground" = "$fg_color";
+          "activityBar.background" = "$bg_color";
+          "activityBar.foreground" = "$fg_color";
+          "sideBar.background" = "$bg_color";
+          "sideBar.foreground" = "$fg_color";
+          "panel.background" = "$bg_color";
+          "panel.border" = "$accent_color";
+          "terminal.background" = "$bg_color";
+          "terminal.foreground" = "$fg_color";
+          "statusBar.background" = "$accent_color";
+          "statusBar.foreground" = "$bg_color";
+          "editor.selectionBackground" = "$selection_color";
+          "editor.lineHighlightBackground" = "''${colors[8]}50";
+        };
+EOF
+      
+      # Use sed to replace the workbench.colorCustomizations section in vscode.nix
+      # This is a simplified approach - in practice you might want more robust parsing
+      sudo sed -i '/# Pywal integration/,/};/c\
+        # Pywal integration - Auto-generated colors from current wallpaper\
+        "workbench.colorCustomizations" = {\
+          "editor.background" = "'$bg_color'";\
+          "editor.foreground" = "'$fg_color'";\
+          "activityBar.background" = "'$bg_color'";\
+          "activityBar.foreground" = "'$fg_color'";\
+          "sideBar.background" = "'$bg_color'";\
+          "sideBar.foreground" = "'$fg_color'";\
+          "panel.background" = "'$bg_color'";\
+          "panel.border" = "'$accent_color'";\
+          "terminal.background" = "'$bg_color'";\
+          "terminal.foreground" = "'$fg_color'";\
+          "statusBar.background" = "'$accent_color'";\
+          "statusBar.foreground" = "'$bg_color'";\
+          "editor.selectionBackground" = "'$selection_color'";\
+          "editor.lineHighlightBackground" = "''${colors[8]}50";\
+        };' "$VSCODE_NIX_FILE"
+      
+      # Rebuild home-manager to apply changes
+      echo "Rebuilding home-manager with new colors..."
+      cd /etc/nixos && sudo nixos-rebuild switch --flake .#nixos
+      
+      echo "VS Code colors updated and applied!"
     '';
     executable = true;
   };
