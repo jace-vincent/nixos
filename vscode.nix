@@ -4,23 +4,24 @@
   programs.vscode = {
     enable = true;
     mutableExtensionsDir = true;
-    extensions = with pkgs.vscode-extensions; [
-      # Extensions that work with official VS Code (install via Nix):
-      github.copilot
-      github.copilot-chat
-      bradlc.vscode-tailwindcss
-      bbenoist.nix
-      # The following extensions should be installed manually from the VS Code Marketplace:
-      # ms-python.python         # Install manually
-      # ms-vscode.cpptools       # Install manually
-      # esbenp.prettier-vscode   # Install manually
-      # vscodevim.vim            # Install manually
-      # pylint.vscode-pylint     # Install manually
-    ];
-    
-    # Note: userSettings commented out to prevent backup conflicts
-    # The wallpaper-manager script manages settings.json directly
-    userSettings = {
+    profiles.default = {
+      extensions = with pkgs.vscode-extensions; [
+        # Extensions that work with official VS Code (install via Nix):
+        github.copilot
+        github.copilot-chat
+        bradlc.vscode-tailwindcss
+        bbenoist.nix
+        # The following extensions should be installed manually from the VS Code Marketplace:
+        # ms-python.python         # Install manually
+        # ms-vscode.cpptools       # Install manually
+        # esbenp.prettier-vscode   # Install manually
+        # vscodevim.vim            # Install manually
+        # pylint.vscode-pylint     # Install manually
+      ];
+      
+      # Note: userSettings commented out to prevent backup conflicts
+      # The wallpaper-manager script manages settings.json directly
+      userSettings = {
         # Window transparency settings (works with Hyprland compositor)
         "window.titleBarStyle" = "custom";
         "workbench.colorTheme" = "Default Dark+";
@@ -77,6 +78,7 @@
           "editor.tabSize" = 2;
           "editor.autoIndent" = "advanced";
         };
+      };
     };
   };
 

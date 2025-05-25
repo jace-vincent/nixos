@@ -8,9 +8,10 @@
     settings = {
       # Window transparency rules
       windowrulev2 = [
-        # VS Code transparency
-        "opacity 0.85 0.85,class:^(code-url-handler)$"
-        "opacity 0.85 0.85,class:^(Code)$"
+        # VS Code transparency - covers all VS Code window classes
+        "opacity 0.80 0.80,class:^(code)$"
+        "opacity 0.80 0.80,class:^(Code)$"
+        "opacity 0.80 0.80,class:^(code-url-handler)$"
         
         # Terminal transparency (Alacritty already has built-in transparency)
         "opacity 0.9 0.9,class:^(Alacritty)$"
