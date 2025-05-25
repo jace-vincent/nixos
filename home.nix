@@ -2,6 +2,7 @@
 {
   imports = [
     ./vscode.nix
+    ./wallpaper-manager.nix
   ];
 
   home.username = "jacev";
@@ -16,6 +17,9 @@
       l = "ls -l";
       nrs = "sudo nixos-rebuild switch --flake .#nixos";
       ".." = "cd ..";
+    };
+    sessionVariables = {
+      PATH = "$HOME/.local/bin:$PATH";
     };
   };
 

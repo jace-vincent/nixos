@@ -2,6 +2,7 @@
 {
   environment.systemPackages = with pkgs; [
     kdePackages.kwallet-pam
+    kdePackages.plasma-workspace  # Provides plasma-apply-wallpaperimage
     google-chrome
     git
     kitty
@@ -17,6 +18,13 @@
     picom
     # Nix language server for VS Code
     nil
+    # Image viewer and wallpaper manager
+    feh
+    nsxiv
+    # Dynamic color scheme generator from wallpapers
+    pywal
+    # Menu system for scripts
+    dmenu
   ];
 
   fonts.packages = with pkgs; [
