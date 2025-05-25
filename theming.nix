@@ -58,10 +58,12 @@
           passes = 1;
           vibrancy = 0.1696;
         };
-        drop_shadow = true;
-        shadow_range = 4;
-        shadow_render_power = 3;
-        "col.shadow" = "rgba(1a1a1aee)";
+        shadow = {
+          enabled = true;
+          range = 4;
+          render_power = 3;
+          color = "rgba(1a1a1aee)";
+        };
       };
       
       # General appearance
@@ -87,7 +89,7 @@
       
       # Monitor configuration (adjust for your 4K setup)
       monitor = [
-        ",preferred,auto,1.25"  # Auto-detect with 1.25 scale for 4K
+        ",preferred,auto,1.5"  # Auto-detect with 1.5 scale for 4K laptop
       ];
       
       # Key bindings
@@ -175,8 +177,8 @@
       mainBar = {
         layer = "top";
         position = "top";
-        height = 30;
-        spacing = 4;
+        height = 45;  # Increased height for 4K scaling
+        spacing = 6;  # Increased spacing
         
         modules-left = [ "hyprland/workspaces" "hyprland/mode" ];
         modules-center = [ "hyprland/window" ];
@@ -235,7 +237,7 @@
         };
         
         "tray" = {
-          spacing = 10;
+          spacing = 15;  # Increased spacing for 4K
         };
       };
     };
@@ -243,7 +245,7 @@
     style = ''
       * {
         font-family: "JetBrains Mono", monospace;
-        font-size: 13px;
+        font-size: 16px;  /* Increased font size for 4K */
       }
       
       window#waybar {
@@ -261,7 +263,7 @@
       }
       
       #workspaces button {
-        padding: 0 5px;
+        padding: 0 8px;  /* Increased padding for easier clicking */
         background-color: transparent;
         color: #ffffff;
       }
@@ -282,7 +284,7 @@
       #network,
       #pulseaudio,
       #tray {
-        padding: 0 10px;
+        padding: 0 12px;  /* Increased padding for better readability */
         color: #ffffff;
       }
     '';

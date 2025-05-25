@@ -82,7 +82,7 @@
     name = "Visual Studio Code";
     comment = "Code Editing. Redefined.";
     genericName = "Text Editor";
-    exec = "code --force-device-scale-factor=1.5 --enable-features=UseOzonePlatform --ozone-platform=wayland %F";
+    exec = "code --force-device-scale-factor=1.5 --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime %F";
     icon = "vscode";
     startupNotify = true;
     categories = [ "Utility" "TextEditor" "Development" "IDE" ];
@@ -90,7 +90,7 @@
     actions = {
       new-empty-window = {
         name = "New Empty Window";
-        exec = "code --force-device-scale-factor=1.5 --enable-features=UseOzonePlatform --ozone-platform=wayland --new-window %F";
+        exec = "code --force-device-scale-factor=1.5 --enable-features=UseOzonePlatform --ozone-platform=wayland --enable-wayland-ime --new-window %F";
         icon = "vscode";
       };
     };
