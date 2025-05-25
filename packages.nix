@@ -12,7 +12,8 @@
     cbonsai
     wget
     curl
-    btop 
+    btop
+    alacritty 
   ];
   environment.variables.EDITOR = "vscode";
   nixpkgs.config.allowUnfree = true;
