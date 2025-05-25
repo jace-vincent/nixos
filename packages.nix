@@ -13,7 +13,8 @@
     wget
     curl
     btop
-    alacritty 
+    alacritty
+    tmux
   ];
   environment.variables.EDITOR = "vscode";
   nixpkgs.config.allowUnfree = true;
