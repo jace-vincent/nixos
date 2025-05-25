@@ -42,8 +42,10 @@
       if [ -n "$selected_wallpaper" ]; then
           echo "Setting wallpaper: $(basename "$selected_wallpaper")"
           
-          # Set wallpaper using KDE's plasma-apply-wallpaperimage (requires plasma-workspace package)
-          if command -v plasma-apply-wallpaperimage &> /dev/null; then
+          # Set wallpaper using swww for Hyprland/Wayland or feh for X11
+          if command -v swww &> /dev/null; then
+              swww img "$selected_wallpaper" --transition-type wipe --transition-duration 2
+          elif command -v plasma-apply-wallpaperimage &> /dev/null; then
               plasma-apply-wallpaperimage "$selected_wallpaper"
           else
               feh --bg-scale "$selected_wallpaper"
@@ -226,7 +228,11 @@ EOF
           full_path="$WALLPAPER_DIR/$selected"
           
           # Set wallpaper and generate colors
-          feh --bg-scale "$full_path"
+          if command -v swww &> /dev/null; then
+              swww img "$full_path" --transition-type wipe --transition-duration 2
+          else
+              feh --bg-scale "$full_path"
+          fi
           wal -i "$full_path"
           
           echo "Wallpaper set: $selected"

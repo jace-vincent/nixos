@@ -3,6 +3,7 @@
   imports = [
     ./vscode.nix
     ./wallpaper-manager.nix
+    ./theming.nix
   ];
 
   home.username = "jacev";

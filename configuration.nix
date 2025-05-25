@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./users.nix
-      ./desktop.nix
+      ./hyprland.nix
       ./networking.nix
       ./packages.nix
       ./services.nix

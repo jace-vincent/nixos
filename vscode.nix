@@ -17,9 +17,13 @@
         # Note: dlasagno.wal-theme extension for pywal integration needs manual installation
       ];
       userSettings = {
-        # Window transparency settings (works with compositor)
+        # Window transparency settings (works with Hyprland compositor)
         "window.titleBarStyle" = "custom";
         "workbench.colorTheme" = "Default Dark+";
+        
+        # Wayland-specific settings for better performance
+        "window.nativeTabs" = false;
+        "window.experimental.useSandbox" = false;
         
         # NOTE: Colors are dynamically managed by wallpaper-manager script
         # The script updates workbench.colorCustomizations in settings.json directly
@@ -78,7 +82,7 @@
     name = "Visual Studio Code";
     comment = "Code Editing. Redefined.";
     genericName = "Text Editor";
-    exec = "code --force-device-scale-factor=1.5 --disable-gpu-sandbox --enable-features=UseOzonePlatform --ozone-platform=x11 %F";
+    exec = "code --force-device-scale-factor=1.5 --enable-features=UseOzonePlatform --ozone-platform=wayland %F";
     icon = "vscode";
     startupNotify = true;
     categories = [ "Utility" "TextEditor" "Development" "IDE" ];
@@ -86,7 +90,7 @@
     actions = {
       new-empty-window = {
         name = "New Empty Window";
-        exec = "code --force-device-scale-factor=1.5 --enable-features=UseOzonePlatform --ozone-platform=x11 --new-window %F";
+        exec = "code --force-device-scale-factor=1.5 --enable-features=UseOzonePlatform --ozone-platform=wayland --new-window %F";
         icon = "vscode";
       };
     };

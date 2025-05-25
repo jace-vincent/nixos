@@ -1,32 +1,56 @@
 { config, pkgs, ... }:
 {
   environment.systemPackages = with pkgs; [
-    kdePackages.kwallet-pam
-    kdePackages.plasma-workspace  # Provides plasma-apply-wallpaperimage
+    # Web browsers
     google-chrome
+    firefox
+    
+    # Development tools
     git
+    nil  # Nix language server for VS Code
+    jq   # JSON processor for VS Code settings manipulation
+    
+    # Terminal emulators and tools
     kitty
-    hyprland
+    alacritty
+    tmux
+    
+    # System utilities
     neofetch
     home-manager
     cbonsai
     wget
     curl
     btop
-    alacritty
-    tmux
-    picom
-    # JSON processor for VS Code settings manipulation
-    jq
-    # Nix language server for VS Code
-    nil
-    # Image viewer and wallpaper manager
-    feh
-    nsxiv
-    # Dynamic color scheme generator from wallpapers
-    pywal
-    # Menu system for scripts
-    dmenu
+    
+    # Hyprland and Wayland tools
+    hyprland
+    waybar          # Status bar
+    wofi           # Application launcher
+    swww           # Wallpaper daemon for Wayland
+    grim           # Screenshot utility
+    slurp          # Screen area selection
+    wl-clipboard   # Clipboard manager
+    mako           # Notification daemon
+    brightnessctl  # Brightness control
+    playerctl      # Media player control
+    
+    # Image viewers and wallpaper management
+    feh            # X11 wallpaper setter (backup)
+    nsxiv          # Image viewer for wallpaper selection
+    pywal          # Dynamic color scheme generator
+    dmenu          # Menu system for scripts
+    
+    # File managers
+    xfce.thunar    # Lightweight file manager
+    nautilus       # GNOME file manager (alternative)
+    
+    # Audio/Video
+    pavucontrol    # PulseAudio volume control
+    
+    # Fonts
+    jetbrains-mono
+    font-awesome
   ];
 
   fonts.packages = with pkgs; [
