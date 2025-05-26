@@ -7,7 +7,7 @@ let
     version = "1.0.2-b.3";
     src = pkgs.fetchurl {
       url = "https://github.com/zen-browser/desktop/releases/download/1.0.2-b.3/zen-specific.AppImage";
-      hash = "sha256-0yphby7kr2l1r2n1srip7rqdllpif0j31f1zwigy54ia5bgd3k7m";
+      hash = "sha256-9czR3ioqkuJf5D+4MCRw8VLacD43Zh2syIGKPI9f8Ho=";
     };
     
     extraPkgs = pkgs: with pkgs; [
