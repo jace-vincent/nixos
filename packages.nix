@@ -14,6 +14,7 @@
     kitty
     alacritty
     tmux
+    zsh             # Z shell - needed for VS Code terminal integration
     
     # System utilities
     neofetch

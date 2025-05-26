@@ -60,6 +60,10 @@
           "QT_QPA_PLATFORMTHEME" = "gtk2";
         };
         
+        # Keyring and authentication settings
+        "git.useIntegratedAskPass" = false;  # Disable VS Code's built-in credential helper
+        "git.terminalAuthentication" = false;  # Use system keyring instead of terminal prompts
+        
         # Editor settings
         "workbench.tree.indent" = 20;
         "security.workspace.trust.enabled" = false;
@@ -138,11 +142,16 @@
       
       # VS Code wrapper script to ensure GNOME Keyring integration
       
-      # Set environment variables to force GNOME Keyring usage
+      # Set environment variables to force GNOME Keyring usage and disable KDE detection
       export GNOME_KEYRING_CONTROL="$XDG_RUNTIME_DIR/keyring"
       export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
       export KDE_SESSION_VERSION=""
       export QT_QPA_PLATFORMTHEME="gtk2"
+      
+      # Explicitly disable KDE/KWallet detection for VS Code
+      export XDG_CURRENT_DESKTOP="GNOME"  # Override desktop detection
+      export DESKTOP_SESSION=""
+      export KDE_FULL_SESSION=""
       
       # Force VS Code to use GNOME Keyring instead of KWallet
       export ELECTRON_ENABLE_LOGGING=1
