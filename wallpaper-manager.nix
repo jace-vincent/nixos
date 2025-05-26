@@ -387,7 +387,8 @@ EOF
       #!/usr/bin/env bash
       
       # VS Code settings initialization script with GNOME Keyring integration
-      # This sets up essential settings without Home Manager conflicts
+      # Note: Terminal settings and core preferences are now managed declaratively through Nix
+      # This script only handles dynamic settings like colors and workspace-specific configs
       
       VSCODE_SETTINGS="$HOME/.config/Code/User/settings.json"
       VSCODE_DIR="$HOME/.config/Code/User"
@@ -395,114 +396,197 @@ EOF
       # Create VS Code config directory if it doesn't exist
       mkdir -p "$VSCODE_DIR"
       
-      # Create initial settings if file doesn't exist
-      if [ ! -f "$VSCODE_SETTINGS" ]; then
-          echo "Creating initial VS Code settings with GNOME Keyring support..."
-          cat > "$VSCODE_SETTINGS" << 'EOF'
-{
-  "window.titleBarStyle": "custom",
-  "workbench.colorTheme": "Default Dark+",
-  "window.nativeTabs": false,
-  "window.experimental.useSandbox": false,
-  "editor.fontSize": 16,
-  "editor.fontFamily": "JetBrains Mono",
-  "editor.fontLigatures": true,
-  "terminal.integrated.fontFamily": "JetBrains Mono",
-  "terminal.integrated.fontSize": 16,
-  "workbench.tree.indent": 20,
-  "chat.editor.fontSize": 16,
-  "scm.inputFontSize": 16,
-  "debug.console.fontSize": 16,
-  "markdown.preview.fontSize": 16,
-  "window.zoomLevel": 0.5,
-  "terminal.integrated.defaultProfile.linux": "bash",
-  "terminal.integrated.profiles.linux": {
-    "bash": {
-      "path": "/run/current-system/sw/bin/bash",
-      "args": ["-l", "-i"]
-    },
-    "zsh": {
-      "path": "/run/current-system/sw/bin/zsh",
-      "args": ["-l", "-i"]
-    }
-  },
-  "terminal.integrated.env.linux": {
-    "SHELL": "/run/current-system/sw/bin/bash",
-    "GNOME_KEYRING_CONTROL": "\''${XDG_RUNTIME_DIR}/keyring",
-    "SSH_AUTH_SOCK": "\''${XDG_RUNTIME_DIR}/keyring/ssh",
-    "KDE_SESSION_VERSION": "",
-    "QT_QPA_PLATFORMTHEME": "gtk2"
-  },
-  "security.workspace.trust.enabled": false,
-  "git.enableCommitSigning": false,
-  "extensions.autoCheckUpdates": true,
-  "extensions.autoUpdate": true,
-  "vim.insertModeKeyBindings": [
-    {
-      "before": ["k", "j"],
-      "after": ["<esc>"]
-    }
-  ],
-  "nix.enableLanguageServer": true,
-  "nix.serverPath": "nil",
-  "[nix]": {
-    "editor.insertSpaces": true,
-    "editor.tabSize": 2,
-    "editor.autoIndent": "advanced"
-  },
-  "multiCommand.commands": [
-    {
-      "command": "multiCommand.openChatInNewWindow",
-      "label": "Open Copilot Chat in New Window",
-      "description": "Opens chat panel, then opens it in new window",
-      "sequence": [
-        "workbench.action.chat.open",
-        "workbench.action.chat.openInNewWindow"
-      ]
-    }
-  ]
-}
-EOF
-          echo "VS Code settings initialized with GNOME Keyring support!"
-      else
-          echo "VS Code settings already exist, ensuring essential and keyring settings..."
-          
-          # Use jq to merge essential settings with existing ones, including keyring settings
-          if command -v jq &> /dev/null; then
-              temp_file=$(mktemp)
-              jq '. + {
-                "window.titleBarStyle": "custom",
-                "workbench.colorTheme": "Default Dark+",
-                "window.nativeTabs": false,
-                "window.experimental.useSandbox": false,
-                "editor.fontSize": 16,
-                "editor.fontFamily": "JetBrains Mono",
-                "editor.fontLigatures": true,
-                "terminal.integrated.fontFamily": "JetBrains Mono",
-                "terminal.integrated.fontSize": 16,
-                "workbench.tree.indent": 20,
-                "chat.editor.fontSize": 16,
-                "scm.inputFontSize": 16,
-                "debug.console.fontSize": 16,
-                "markdown.preview.fontSize": 16,
-                "window.zoomLevel": 0.5,
-                "terminal.integrated.defaultProfile.linux": "bash",
-                "nix.enableLanguageServer": true,
-                "nix.serverPath": "nil",
-                "security.workspace.trust.enabled": false,
-                "git.enableCommitSigning": false,
-                "terminal.integrated.env.linux": {
-                  "SHELL": "/run/current-system/sw/bin/bash",
-                  "GNOME_KEYRING_CONTROL": "\''${XDG_RUNTIME_DIR}/keyring",
-                  "SSH_AUTH_SOCK": "\''${XDG_RUNTIME_DIR}/keyring/ssh",
-                  "KDE_SESSION_VERSION": "",
-                  "QT_QPA_PLATFORMTHEME": "gtk2"
-                }
-              }' "$VSCODE_SETTINGS" > "$temp_file"
-              mv "$temp_file" "$VSCODE_SETTINGS"
-              echo "Essential VS Code settings and GNOME Keyring environment updated!"
+      echo "VS Code terminal configuration is now managed declaratively through Nix."
+      echo "Terminal will default to zsh automatically after nixos-rebuild switch."
+      echo ""
+      echo "Current status:"
+      if [ -f "$VSCODE_SETTINGS" ]; then
+          if grep -q '"terminal.integrated.defaultProfile.linux"' "$VSCODE_SETTINGS"; then
+              current_terminal=$(jq -r '."terminal.integrated.defaultProfile.linux" // "not set"' "$VSCODE_SETTINGS" 2>/dev/null || echo "unable to parse")
+              echo "- Current terminal setting: $current_terminal"
+          else
+              echo "- Terminal setting: Will be set by Home Manager"
           fi
+      else
+          echo "- VS Code settings will be created by Home Manager"
       fi
+      
+      echo ""
+      echo "To apply the new terminal configuration:"
+      echo "1. Run: sudo nixos-rebuild switch --flake .#nixos"
+      echo "2. Restart VS Code"
+      echo "3. New terminals will open with zsh by default"
+    '';
+    executable = true;
+  };
+  
+  # Script to update VS Code terminal to use zsh as default
+  home.file.".local/bin/update-vscode-terminal-zsh" = {
+    text = ''
+      #!/usr/bin/env bash
+      
+      # Note: VS Code terminal configuration is now managed declaratively through Nix
+      # This script is kept for backward compatibility but will inform users of the new approach
+      
+      echo "🔄 VS Code Terminal Configuration"
+      echo ""
+      echo "Terminal configuration is now managed declaratively through your Nix configuration."
+      echo "The terminal default profile and environment are set in /etc/nixos/vscode.nix"
+      echo ""
+      echo "Current declarative configuration:"
+      echo "- Default terminal: zsh"
+      echo "- Available profiles: bash, zsh"
+      echo "- Environment includes GNOME Keyring integration"
+      echo ""
+      echo "To apply configuration changes:"
+      echo "1. Edit /etc/nixos/vscode.nix if needed"
+      echo "2. Run: sudo nixos-rebuild switch --flake .#nixos"
+      echo "3. Restart VS Code"
+      echo ""
+      echo "✅ No manual intervention required - zsh will be the default terminal"
+      echo "   after the next system rebuild and VS Code restart."
+    '';
+    executable = true;
+  };
+
+  # Script to force VS Code terminal profile refresh and verification
+  home.file.".local/bin/vscode-terminal-debug" = {
+    text = ''
+      #!/usr/bin/env bash
+      
+      # VS Code Terminal Profile Debug and Force Refresh
+      echo "🔍 VS Code Terminal Profile Debug"
+      echo ""
+      
+      # Check if VS Code is running
+      if pgrep -f "code" > /dev/null; then
+          echo "⚠️  VS Code is currently running"
+          echo "   Please close ALL VS Code windows and instances for settings to take effect"
+          echo ""
+      fi
+      
+      # Check zsh availability
+      echo "📍 Checking zsh availability:"
+      if [ -x "/run/current-system/sw/bin/zsh" ]; then
+          echo "✅ zsh found at: /run/current-system/sw/bin/zsh"
+          echo "   Version: $(/run/current-system/sw/bin/zsh --version)"
+      else
+          echo "❌ zsh NOT found at expected path"
+          echo "   Run: sudo nixos-rebuild switch --flake .#nixos"
+          exit 1
+      fi
+      echo ""
+      
+      # Check VS Code settings
+      VSCODE_SETTINGS="$HOME/.config/Code/User/settings.json"
+      echo "📋 Checking VS Code settings:"
+      if [ -f "$VSCODE_SETTINGS" ]; then
+          echo "✅ Settings file exists: $VSCODE_SETTINGS"
+          
+          # Check if it's a symlink (Home Manager managed)
+          if [ -L "$VSCODE_SETTINGS" ]; then
+              echo "✅ Settings managed by Home Manager (symlink)"
+              echo "   Target: $(readlink "$VSCODE_SETTINGS")"
+          else
+              echo "⚠️  Settings file is NOT a symlink"
+              echo "   This means you have a local settings.json that might override Home Manager"
+          fi
+          
+          # Check terminal default profile
+          if command -v jq &> /dev/null; then
+              default_profile=$(jq -r '."terminal.integrated.defaultProfile.linux" // "not set"' "$VSCODE_SETTINGS" 2>/dev/null)
+              echo "   Terminal default profile: $default_profile"
+              
+              # Check if zsh profile exists
+              zsh_path=$(jq -r '."terminal.integrated.profiles.linux".zsh.path // "not set"' "$VSCODE_SETTINGS" 2>/dev/null)
+              echo "   Zsh profile path: $zsh_path"
+          else
+              echo "   (jq not available for detailed settings check)"
+          fi
+      else
+          echo "❌ VS Code settings.json not found"
+          echo "   Settings should be created by Home Manager"
+      fi
+      echo ""
+      
+      # Check for workspace overrides
+      if [ -d ".vscode" ]; then
+          echo "📂 Workspace settings detected:"
+          if [ -f ".vscode/settings.json" ]; then
+              echo "⚠️  Local workspace settings found: .vscode/settings.json"
+              if command -v jq &> /dev/null; then
+                  workspace_terminal=$(jq -r '."terminal.integrated.defaultProfile.linux" // "not set"' ".vscode/settings.json" 2>/dev/null)
+                  if [ "$workspace_terminal" != "not set" ]; then
+                      echo "   Workspace overrides terminal to: $workspace_terminal"
+                      echo "   This will override your user settings!"
+                  fi
+              fi
+          else
+              echo "✅ No workspace terminal overrides"
+          fi
+      else
+          echo "✅ No workspace settings directory"
+      fi
+      echo ""
+      
+      # Instructions
+      echo "🔧 To fix VS Code terminal profile:"
+      echo "1. Close ALL VS Code windows/instances completely"
+      echo "2. Kill any remaining VS Code processes:"
+      echo "   pkill -f code"
+      echo "3. Clear VS Code workspace state (if needed):"
+      echo "   rm -rf ~/.config/Code/CachedExtensions"
+      echo "   rm -rf ~/.config/Code/logs"
+      echo "4. Restart VS Code and try Ctrl+Shift+\` again"
+      echo ""
+      echo "5. If it still doesn't work, try manually selecting the profile:"
+      echo "   - Open Command Palette (Ctrl+Shift+P)"
+      echo "   - Type: 'Terminal: Select Default Profile'"
+      echo "   - Choose 'zsh'"
+      echo ""
+      echo "6. Alternative: Use the terminal dropdown in VS Code"
+      echo "   - Click the dropdown arrow next to the + in terminal panel"
+      echo "   - Select 'zsh' profile"
+    '';
+    executable = true;
+  };
+
+  # Script to completely reset VS Code terminal configuration
+  home.file.".local/bin/vscode-reset-terminal" = {
+    text = ''
+      #!/usr/bin/env bash
+      
+      # Force reset VS Code terminal configuration
+      echo "🔄 Resetting VS Code Terminal Configuration"
+      echo ""
+      
+      # Stop VS Code if running
+      if pgrep -f "code" > /dev/null; then
+          echo "Stopping VS Code processes..."
+          pkill -f code
+          sleep 2
+      fi
+      
+      # Remove VS Code cache and workspace state
+      echo "Clearing VS Code cache..."
+      rm -rf ~/.config/Code/CachedExtensions
+      rm -rf ~/.config/Code/logs
+      rm -rf ~/.config/Code/User/workspaceStorage
+      
+      # Remove any backup settings that might interfere
+      if [ -f ~/.config/Code/User/settings.json.backup ]; then
+          echo "Removing settings backup..."
+          rm ~/.config/Code/User/settings.json.backup
+      fi
+      
+      echo ""
+      echo "✅ VS Code terminal configuration reset complete"
+      echo ""
+      echo "Next steps:"
+      echo "1. Run: sudo nixos-rebuild switch --flake .#nixos"
+      echo "2. Start VS Code fresh"
+      echo "3. Open a new terminal with Ctrl+Shift+\`"
+      echo "4. It should now default to zsh"
     '';
     executable = true;
   };

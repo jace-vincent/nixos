@@ -20,9 +20,87 @@
         # ryuta46.multi-command    # For complex keybinding sequences - install manually
       ];
       
-      # Note: VS Code settings are managed by scripts to avoid Home Manager conflicts
-      # Essential settings are applied by the vscode-init script
-      # Colors are managed by wallpaper-manager script
+      # VS Code user settings - configured declaratively through Nix
+      userSettings = {
+        # Window and UI settings
+        "window.titleBarStyle" = "custom";
+        "workbench.colorTheme" = "Default Dark+";
+        "window.nativeTabs" = false;
+        "window.experimental.useSandbox" = false;
+        "window.zoomLevel" = 0.5;
+        
+        # Font settings
+        "editor.fontSize" = 16;
+        "editor.fontFamily" = "JetBrains Mono";
+        "editor.fontLigatures" = true;
+        "terminal.integrated.fontFamily" = "JetBrains Mono";
+        "terminal.integrated.fontSize" = 16;
+        "chat.editor.fontSize" = 16;
+        "scm.inputFontSize" = 16;
+        "debug.console.fontSize" = 16;
+        "markdown.preview.fontSize" = 16;
+        
+        # Terminal configuration - zsh as default
+        "terminal.integrated.defaultProfile.linux" = "zsh";
+        "terminal.integrated.profiles.linux" = {
+          "bash" = {
+            "path" = "/run/current-system/sw/bin/bash";
+            "args" = ["-l" "-i"];
+          };
+          "zsh" = {
+            "path" = "/run/current-system/sw/bin/zsh";
+            "args" = ["-l" "-i"];
+          };
+        };
+        "terminal.integrated.env.linux" = {
+          "SHELL" = "/run/current-system/sw/bin/zsh";
+          "GNOME_KEYRING_CONTROL" = "\${XDG_RUNTIME_DIR}/keyring";
+          "SSH_AUTH_SOCK" = "\${XDG_RUNTIME_DIR}/keyring/ssh";
+          "KDE_SESSION_VERSION" = "";
+          "QT_QPA_PLATFORMTHEME" = "gtk2";
+        };
+        
+        # Editor settings
+        "workbench.tree.indent" = 20;
+        "security.workspace.trust.enabled" = false;
+        
+        # Git settings
+        "git.enableCommitSigning" = false;
+        
+        # Extensions settings
+        "extensions.autoCheckUpdates" = true;
+        "extensions.autoUpdate" = true;
+        
+        # Vim settings
+        "vim.insertModeKeyBindings" = [
+          {
+            "before" = ["k" "j"];
+            "after" = ["<esc>"];
+          }
+        ];
+        
+        # Nix language server settings
+        "nix.enableLanguageServer" = true;
+        "nix.serverPath" = "nil";
+        "[nix]" = {
+          "editor.insertSpaces" = true;
+          "editor.tabSize" = 2;
+          "editor.autoIndent" = "advanced";
+        };
+        
+        # Multi-command settings for keybindings
+        "multiCommand.commands" = [
+          {
+            "command" = "multiCommand.openChatInNewWindow";
+            "label" = "Open Copilot Chat in New Window";
+            "description" = "Opens chat panel, then opens it in new window";
+            "sequence" = [
+              "workbench.action.chat.open"
+              "workbench.action.chat.openInNewWindow"
+            ];
+          }
+        ];
+      };
       
       # Custom keybindings for VS Code
       keybindings = [
