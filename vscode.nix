@@ -20,78 +20,9 @@
         # ryuta46.multi-command    # For complex keybinding sequences - install manually
       ];
       
-      # Essential settings for Hyprland integration
+      # Note: VS Code settings are managed by scripts to avoid Home Manager conflicts
+      # Essential settings are applied by the vscode-init script
       # Colors are managed by wallpaper-manager script
-      userSettings = {
-        # Window transparency settings (works with Hyprland compositor)
-        "window.titleBarStyle" = "custom";
-        "workbench.colorTheme" = "Default Dark+";
-        
-        # Wayland-specific settings for better performance
-        "window.nativeTabs" = false;
-        "window.experimental.useSandbox" = false;
-        
-        # Better settings for development
-        "editor.fontSize" = 16;
-        "editor.fontFamily" = "JetBrains Mono";
-        "editor.fontLigatures" = true;
-        "terminal.integrated.fontFamily" = "JetBrains Mono";
-        "terminal.integrated.fontSize" = 16;
-        # UI Font sizes for better visibility
-        "workbench.tree.indent" = 20;
-        "chat.editor.fontSize" = 16;
-        "scm.inputFontSize" = 16;
-        "debug.console.fontSize" = 16;
-        "markdown.preview.fontSize" = 16;
-        # Zoom level affects all UI elements
-        "window.zoomLevel" = 0.5;
-        
-        # Terminal configuration
-        "terminal.integrated.defaultProfile.linux" = "bash";
-        "terminal.integrated.profiles.linux" = {
-          "bash" = {
-            "path" = "${pkgs.bash}/bin/bash";
-            "args" = [ "-l" "-i" ];
-          };
-          "zsh" = {
-            "path" = "${pkgs.zsh}/bin/zsh";
-            "args" = [ "-l" "-i" ];
-          };
-        };
-        "terminal.integrated.env.linux" = {
-          "SHELL" = "${pkgs.bash}/bin/bash";
-        };
-        
-        # Vim key bindings
-        "vim.insertModeKeyBindings" = [
-          {
-            "before" = ["k" "j"];
-            "after" = ["<esc>"];
-          }
-        ];
-        
-        # Nix language settings
-        "nix.enableLanguageServer" = true;
-        "nix.serverPath" = "nil";
-        "[nix]" = {
-          "editor.insertSpaces" = true;
-          "editor.tabSize" = 2;
-          "editor.autoIndent" = "advanced";
-        };
-        
-        # Multi-command extension configuration
-        "multiCommand.commands" = [
-          {
-            "command" = "multiCommand.openChatInNewWindow";
-            "label" = "Open Copilot Chat in New Window";
-            "description" = "Opens chat panel, then opens it in new window";
-            "sequence" = [
-              "workbench.action.chat.open"
-              "workbench.action.chat.openInNewWindow"
-            ];
-          }
-        ];
-      };
       
       # Custom keybindings for VS Code
       keybindings = [

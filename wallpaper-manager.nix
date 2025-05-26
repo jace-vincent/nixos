@@ -263,51 +263,47 @@ EOF
       # This script runs at Hyprland startup to immediately set wallpaper
       # preventing the default background from showing
       
-      # Initialize swww daemon
-      swww init &
-      
-      # Wait for swww to be ready (very brief wait)
-      sleep 0.5
-      
-      # Wallpaper directory
+      # Wallpaper paths
       WALLPAPER_DIR="$HOME/Documents/wallpapers"
       DEFAULT_WALLPAPER="$WALLPAPER_DIR/default.jpg"
       CACHED_WALLPAPER="$HOME/.cache/wal/wal"
       
-      # Function to set wallpaper with no transition for startup
-      set_startup_wallpaper() {
-          local wallpaper_path="$1"
-          if [ -f "$wallpaper_path" ]; then
-              # Use immediate transition for startup
-              swww img "$wallpaper_path" --transition-type none --transition-duration 0
-              return 0
-          fi
-          return 1
-      }
-      
-      # Priority order: cached wallpaper > default > first found image
-      if set_startup_wallpaper "$CACHED_WALLPAPER"; then
-          echo "Applied cached wallpaper from pywal"
-      elif set_startup_wallpaper "$DEFAULT_WALLPAPER"; then
-          echo "Applied default wallpaper"
-      else
-          # Find any wallpaper in the directory
-          if [ -d "$WALLPAPER_DIR" ]; then
-              first_wallpaper=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -print -quit)
-              if [ -n "$first_wallpaper" ]; then
-                  set_startup_wallpaper "$first_wallpaper"
-                  echo "Applied first available wallpaper: $(basename "$first_wallpaper")"
-              else
-                  echo "No wallpapers found in $WALLPAPER_DIR"
-              fi
-          else
-              echo "Wallpaper directory not found: $WALLPAPER_DIR"
-          fi
+      # Determine which wallpaper to use
+      STARTUP_WALLPAPER=""
+      if [ -f "$CACHED_WALLPAPER" ]; then
+          STARTUP_WALLPAPER="$CACHED_WALLPAPER"
+      elif [ -f "$DEFAULT_WALLPAPER" ]; then
+          STARTUP_WALLPAPER="$DEFAULT_WALLPAPER"
+      elif [ -d "$WALLPAPER_DIR" ]; then
+          STARTUP_WALLPAPER=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -print -quit)
       fi
       
-      # Apply colors if pywal cache exists (but don't regenerate at startup for speed)
-      if [ -f "$HOME/.cache/wal/colors" ]; then
-          ~/.local/bin/update-vscode-colors-direct 2>/dev/null &
+      # Initialize swww daemon in background and immediately set wallpaper
+      if [ -n "$STARTUP_WALLPAPER" ] && [ -f "$STARTUP_WALLPAPER" ]; then
+          # Start swww daemon
+          swww init &
+          SWWW_PID=$!
+          
+          # Very brief wait for daemon to initialize
+          sleep 0.1
+          
+          # Aggressively try to set wallpaper immediately (multiple attempts)
+          for i in {1..5}; do
+              if swww img "$STARTUP_WALLPAPER" --transition-type none --transition-duration 0 2>/dev/null; then
+                  echo "Wallpaper applied successfully on attempt $i"
+                  break
+              fi
+              sleep 0.1
+          done
+          
+          # Apply colors if pywal cache exists (but don't regenerate at startup for speed)
+          if [ -f "$HOME/.cache/wal/colors" ]; then
+              ~/.local/bin/update-vscode-colors-direct 2>/dev/null &
+          fi
+      else
+          # Still initialize swww even if no wallpaper found
+          swww init &
+          echo "No wallpaper found for startup"
       fi
     '';
     executable = true;
@@ -348,6 +344,147 @@ EOF
       else
           echo "Found $wallpaper_count wallpaper(s) in $WALLPAPER_DIR"
           echo "Run 'wallpaper-select' to choose a wallpaper!"
+      fi
+    '';
+    executable = true;
+  };
+  
+  # Pre-Hyprland wallpaper preparation script
+  home.file.".local/bin/pre-hyprland-setup" = {
+    text = ''
+      #!/usr/bin/env bash
+      
+      # This script can be run before Hyprland starts to prepare wallpaper
+      # It ensures the wallpaper directory exists and creates a fallback
+      
+      WALLPAPER_DIR="$HOME/Documents/wallpapers"
+      DEFAULT_WALLPAPER="$WALLPAPER_DIR/default.jpg"
+      
+      # Create wallpaper directory if it doesn't exist
+      mkdir -p "$WALLPAPER_DIR"
+      
+      # Create a simple dark wallpaper if no default exists
+      if [ ! -f "$DEFAULT_WALLPAPER" ]; then
+          if command -v convert &> /dev/null; then
+              # Create a dark gradient wallpaper that matches Hyprland's background
+              convert -size 2560x1440 gradient:'#1e1e2e'-'#313244' "$DEFAULT_WALLPAPER" 2>/dev/null
+          elif command -v magick &> /dev/null; then
+              # Alternative ImageMagick command
+              magick -size 2560x1440 gradient:'#1e1e2e'-'#313244' "$DEFAULT_WALLPAPER" 2>/dev/null
+          else
+              echo "Warning: ImageMagick not available, cannot create default wallpaper"
+          fi
+      fi
+      
+      echo "Wallpaper directory prepared: $WALLPAPER_DIR"
+    '';
+    executable = true;
+  };
+  
+  # VS Code initialization script to set up essential settings
+  home.file.".local/bin/vscode-init" = {
+    text = ''
+      #!/usr/bin/env bash
+      
+      # VS Code settings initialization script
+      # This sets up essential settings without Home Manager conflicts
+      
+      VSCODE_SETTINGS="$HOME/.config/Code/User/settings.json"
+      VSCODE_DIR="$HOME/.config/Code/User"
+      
+      # Create VS Code config directory if it doesn't exist
+      mkdir -p "$VSCODE_DIR"
+      
+      # Create initial settings if file doesn't exist
+      if [ ! -f "$VSCODE_SETTINGS" ]; then
+          echo "Creating initial VS Code settings..."
+          cat > "$VSCODE_SETTINGS" << 'EOF'
+{
+  "window.titleBarStyle": "custom",
+  "workbench.colorTheme": "Default Dark+",
+  "window.nativeTabs": false,
+  "window.experimental.useSandbox": false,
+  "editor.fontSize": 16,
+  "editor.fontFamily": "JetBrains Mono",
+  "editor.fontLigatures": true,
+  "terminal.integrated.fontFamily": "JetBrains Mono",
+  "terminal.integrated.fontSize": 16,
+  "workbench.tree.indent": 20,
+  "chat.editor.fontSize": 16,
+  "scm.inputFontSize": 16,
+  "debug.console.fontSize": 16,
+  "markdown.preview.fontSize": 16,
+  "window.zoomLevel": 0.5,
+  "terminal.integrated.defaultProfile.linux": "bash",
+  "terminal.integrated.profiles.linux": {
+    "bash": {
+      "path": "/run/current-system/sw/bin/bash",
+      "args": ["-l", "-i"]
+    },
+    "zsh": {
+      "path": "/run/current-system/sw/bin/zsh",
+      "args": ["-l", "-i"]
+    }
+  },
+  "terminal.integrated.env.linux": {
+    "SHELL": "/run/current-system/sw/bin/bash"
+  },
+  "vim.insertModeKeyBindings": [
+    {
+      "before": ["k", "j"],
+      "after": ["<esc>"]
+    }
+  ],
+  "nix.enableLanguageServer": true,
+  "nix.serverPath": "nil",
+  "[nix]": {
+    "editor.insertSpaces": true,
+    "editor.tabSize": 2,
+    "editor.autoIndent": "advanced"
+  },
+  "multiCommand.commands": [
+    {
+      "command": "multiCommand.openChatInNewWindow",
+      "label": "Open Copilot Chat in New Window",
+      "description": "Opens chat panel, then opens it in new window",
+      "sequence": [
+        "workbench.action.chat.open",
+        "workbench.action.chat.openInNewWindow"
+      ]
+    }
+  ]
+}
+EOF
+          echo "VS Code settings initialized!"
+      else
+          echo "VS Code settings already exist, ensuring essential settings..."
+          
+          # Use jq to merge essential settings with existing ones
+          if command -v jq &> /dev/null; then
+              temp_file=$(mktemp)
+              jq '. + {
+                "window.titleBarStyle": "custom",
+                "workbench.colorTheme": "Default Dark+",
+                "window.nativeTabs": false,
+                "window.experimental.useSandbox": false,
+                "editor.fontSize": 16,
+                "editor.fontFamily": "JetBrains Mono",
+                "editor.fontLigatures": true,
+                "terminal.integrated.fontFamily": "JetBrains Mono",
+                "terminal.integrated.fontSize": 16,
+                "workbench.tree.indent": 20,
+                "chat.editor.fontSize": 16,
+                "scm.inputFontSize": 16,
+                "debug.console.fontSize": 16,
+                "markdown.preview.fontSize": 16,
+                "window.zoomLevel": 0.5,
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "nix.enableLanguageServer": true,
+                "nix.serverPath": "nil"
+              }' "$VSCODE_SETTINGS" > "$temp_file"
+              mv "$temp_file" "$VSCODE_SETTINGS"
+              echo "Essential VS Code settings updated!"
+          fi
       fi
     '';
     executable = true;

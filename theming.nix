@@ -93,6 +93,13 @@
         ",preferred,auto,1.5"  # Auto-detect with 1.5 scale for 4K laptop
       ];
       
+      # Set a dark background color to minimize flash during startup
+      misc = {
+        disable_hyprland_logo = true;
+        disable_splash_rendering = true;
+        background_color = "rgb(30,30,46)";  # Dark background to match common wallpaper tones
+      };
+      
       # Key bindings
       "$mod" = "SUPER";
       bind = [
@@ -163,9 +170,15 @@
       # Startup applications with optimized wallpaper loading
       exec-once = [
         # Initialize wallpaper daemon early with immediate wallpaper
-        "~/.local/bin/startup-wallpaper"
+        "~/.local/bin/startup-wallpaper &"
         "waybar"
         "mako"
+      ];
+      
+      # Immediate execution for fastest wallpaper loading
+      exec = [
+        # Try to apply wallpaper immediately if swww is running
+        "[[ $(pgrep swww-daemon) ]] && swww img ~/.cache/wal/wal --transition-type none --transition-duration 0 2>/dev/null || true"
       ];
     };
   };
