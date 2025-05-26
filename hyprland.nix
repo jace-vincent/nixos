@@ -57,6 +57,15 @@
     
     # Additional Wayland scaling
     MOZ_ENABLE_WAYLAND = "1";  # Firefox Wayland support
+    
+    # GNOME Keyring integration - force applications to use it instead of KWallet
+    KDE_SESSION_VERSION = "";  # Clear KDE detection
+    QT_QPA_PLATFORMTHEME = "gtk2";  # Use GTK theme for Qt apps
+    GNOME_KEYRING_CONTROL = "$XDG_RUNTIME_DIR/keyring";
+    SSH_AUTH_SOCK = "$XDG_RUNTIME_DIR/keyring/ssh";
+    
+    # Force Electron apps (like VS Code) to use GNOME Keyring
+    ELECTRON_ENABLE_LOGGING = "1";
   };
 
   # Additional packages needed for Hyprland

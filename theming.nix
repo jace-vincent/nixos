@@ -150,6 +150,10 @@
         "$mod SHIFT, W, exec, wallpaper-select"
         "$mod, W, exec, wallpaper-dmenu"
         
+        # Wallet/Keyring management
+        "$mod ALT, U, exec, wallet-unlock"
+        "$mod ALT, S, exec, alacritty -e wallet-status"
+        
         # Screenshot
         "$mod SHIFT, S, exec, grim -g \"$(slurp)\" - | wl-copy"
         
@@ -171,8 +175,12 @@
       exec-once = [
         # Initialize wallpaper daemon early with immediate wallpaper
         "~/.local/bin/startup-wallpaper &"
+        # Set up wallet/keyring for seamless secret access
+        "~/.local/bin/auto-wallet-setup &"
         "waybar"
         "mako"
+        # Start polkit authentication agent for GUI auth prompts
+        "${pkgs.kdePackages.polkit-kde-agent-1}/libexec/polkit-kde-authentication-agent-1 &"
       ];
       
       # Immediate execution for fastest wallpaper loading

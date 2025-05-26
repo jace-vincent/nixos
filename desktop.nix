@@ -49,6 +49,6 @@
   
   # Enable touchpad support (optional)
   # services.xserver.libinput.enable = true;
-  # KDE PAM wallet config
-  security.pam.services.login.enableKwallet = true;
+  # KDE PAM wallet config - DISABLED to use GNOME Keyring instead
+  # security.pam.services.login.enableKwallet = true;
 }

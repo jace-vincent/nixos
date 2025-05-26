@@ -42,6 +42,12 @@
     dmenu          # Menu system for scripts
     imagemagick    # Image manipulation for default wallpaper creation
     
+    # Secret management and authentication
+    gnome-keyring   # Secret storage
+    libsecret       # For applications to access secrets
+    seahorse        # GUI for managing secrets
+    kdePackages.polkit-kde-agent-1 # Authentication agent for GUI apps
+    
     # File managers
     xfce.thunar    # Lightweight file manager
     nautilus       # GNOME file manager (alternative)

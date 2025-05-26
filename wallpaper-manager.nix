@@ -386,7 +386,7 @@ EOF
     text = ''
       #!/usr/bin/env bash
       
-      # VS Code settings initialization script
+      # VS Code settings initialization script with GNOME Keyring integration
       # This sets up essential settings without Home Manager conflicts
       
       VSCODE_SETTINGS="$HOME/.config/Code/User/settings.json"
@@ -397,7 +397,7 @@ EOF
       
       # Create initial settings if file doesn't exist
       if [ ! -f "$VSCODE_SETTINGS" ]; then
-          echo "Creating initial VS Code settings..."
+          echo "Creating initial VS Code settings with GNOME Keyring support..."
           cat > "$VSCODE_SETTINGS" << 'EOF'
 {
   "window.titleBarStyle": "custom",
@@ -427,8 +427,16 @@ EOF
     }
   },
   "terminal.integrated.env.linux": {
-    "SHELL": "/run/current-system/sw/bin/bash"
+    "SHELL": "/run/current-system/sw/bin/bash",
+    "GNOME_KEYRING_CONTROL": "\''${XDG_RUNTIME_DIR}/keyring",
+    "SSH_AUTH_SOCK": "\''${XDG_RUNTIME_DIR}/keyring/ssh",
+    "KDE_SESSION_VERSION": "",
+    "QT_QPA_PLATFORMTHEME": "gtk2"
   },
+  "security.workspace.trust.enabled": false,
+  "git.enableCommitSigning": false,
+  "extensions.autoCheckUpdates": true,
+  "extensions.autoUpdate": true,
   "vim.insertModeKeyBindings": [
     {
       "before": ["k", "j"],
@@ -455,11 +463,11 @@ EOF
   ]
 }
 EOF
-          echo "VS Code settings initialized!"
+          echo "VS Code settings initialized with GNOME Keyring support!"
       else
-          echo "VS Code settings already exist, ensuring essential settings..."
+          echo "VS Code settings already exist, ensuring essential and keyring settings..."
           
-          # Use jq to merge essential settings with existing ones
+          # Use jq to merge essential settings with existing ones, including keyring settings
           if command -v jq &> /dev/null; then
               temp_file=$(mktemp)
               jq '. + {
@@ -480,10 +488,19 @@ EOF
                 "window.zoomLevel": 0.5,
                 "terminal.integrated.defaultProfile.linux": "bash",
                 "nix.enableLanguageServer": true,
-                "nix.serverPath": "nil"
+                "nix.serverPath": "nil",
+                "security.workspace.trust.enabled": false,
+                "git.enableCommitSigning": false,
+                "terminal.integrated.env.linux": {
+                  "SHELL": "/run/current-system/sw/bin/bash",
+                  "GNOME_KEYRING_CONTROL": "\''${XDG_RUNTIME_DIR}/keyring",
+                  "SSH_AUTH_SOCK": "\''${XDG_RUNTIME_DIR}/keyring/ssh",
+                  "KDE_SESSION_VERSION": "",
+                  "QT_QPA_PLATFORMTHEME": "gtk2"
+                }
               }' "$VSCODE_SETTINGS" > "$temp_file"
               mv "$temp_file" "$VSCODE_SETTINGS"
-              echo "Essential VS Code settings updated!"
+              echo "Essential VS Code settings and GNOME Keyring environment updated!"
           fi
       fi
     '';
