@@ -3,7 +3,7 @@
 let
   # Create a custom Zen Browser package using the AppImage
   zen-browser = pkgs.appimageTools.wrapType2 {
-    name = "zen-browser";
+    pname = "zen-browser";
     version = "1.0.2-b.3";
     src = pkgs.fetchurl {
       url = "https://github.com/zen-browser/desktop/releases/download/1.0.2-b.3/zen-specific.AppImage";
