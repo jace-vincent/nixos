@@ -19,6 +19,7 @@
       nrs = "sudo nixos-rebuild switch --flake .#nixos";
       ".." = "cd ..";
       wal = "wallpaper-select";  # Short alias for wallpaper manager
+      setup-wal = "setup-wallpapers";  # Setup wallpaper directory
     };
     sessionVariables = {
       PATH = "$HOME/.local/bin:$PATH";
@@ -41,8 +42,11 @@
       l = "ls -l";
       nrs = "sudo nixos-rebuild switch --flake .#nixos";
       ".." = "cd ..";
+      wal = "wallpaper-select";  # Short alias for wallpaper manager
+      setup-wal = "setup-wallpapers";  # Setup wallpaper directory
     };
   };
+  
   programs.git.enable = true;
 
   programs.alacritty = {

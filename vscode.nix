@@ -20,8 +20,8 @@
         # ryuta46.multi-command    # For complex keybinding sequences - install manually
       ];
       
-      # Note: userSettings commented out to prevent backup conflicts
-      # The wallpaper-manager script manages settings.json directly
+      # Essential settings for Hyprland integration
+      # Colors are managed by wallpaper-manager script
       userSettings = {
         # Window transparency settings (works with Hyprland compositor)
         "window.titleBarStyle" = "custom";
@@ -31,9 +31,6 @@
         "window.nativeTabs" = false;
         "window.experimental.useSandbox" = false;
         
-        # NOTE: Colors are dynamically managed by wallpaper-manager script
-        # The script updates workbench.colorCustomizations in settings.json directly
-        
         # Better settings for development
         "editor.fontSize" = 16;
         "editor.fontFamily" = "JetBrains Mono";
@@ -41,29 +38,30 @@
         "terminal.integrated.fontFamily" = "JetBrains Mono";
         "terminal.integrated.fontSize" = 16;
         # UI Font sizes for better visibility
-        "workbench.tree.indent" = 20; # More spacing in explorer
-        "chat.editor.fontSize" = 16; # Copilot chat font size
-        "scm.inputFontSize" = 16; # Source control input font size
-        "debug.console.fontSize" = 16; # Debug console font size
-        "markdown.preview.fontSize" = 16; # Markdown preview font size
-        # Zoom level affects all UI elements including explorer, panels, etc.
-        "window.zoomLevel" = 0.5; # Increase overall UI scale (0.5 = 150%, 1.0 = 200%)
-        # Force VS Code to use bash as default and load full configuration
+        "workbench.tree.indent" = 20;
+        "chat.editor.fontSize" = 16;
+        "scm.inputFontSize" = 16;
+        "debug.console.fontSize" = 16;
+        "markdown.preview.fontSize" = 16;
+        # Zoom level affects all UI elements
+        "window.zoomLevel" = 0.5;
+        
+        # Terminal configuration
         "terminal.integrated.defaultProfile.linux" = "bash";
         "terminal.integrated.profiles.linux" = {
           "bash" = {
             "path" = "${pkgs.bash}/bin/bash";
-            "args" = [ "-l" "-i" ]; # Login and interactive shell to ensure aliases load
+            "args" = [ "-l" "-i" ];
           };
           "zsh" = {
             "path" = "${pkgs.zsh}/bin/zsh";
             "args" = [ "-l" "-i" ];
           };
         };
-        # Environment variables for terminal
         "terminal.integrated.env.linux" = {
           "SHELL" = "${pkgs.bash}/bin/bash";
         };
+        
         # Vim key bindings
         "vim.insertModeKeyBindings" = [
           {
@@ -81,16 +79,15 @@
           "editor.autoIndent" = "advanced";
         };
         
-        # Multi-command extension configuration for complex keybinding sequences
+        # Multi-command extension configuration
         "multiCommand.commands" = [
           {
             "command" = "multiCommand.openChatInNewWindow";
             "label" = "Open Copilot Chat in New Window";
-            "description" = "Opens chat panel, then opens it in new window and closes it in original";
+            "description" = "Opens chat panel, then opens it in new window";
             "sequence" = [
               "workbench.action.chat.open"
               "workbench.action.chat.openInNewWindow"
-              "workbench.action.chat.toggle"
             ];
           }
         ];

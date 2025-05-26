@@ -40,6 +40,7 @@
     nsxiv          # Image viewer for wallpaper selection
     pywal          # Dynamic color scheme generator
     dmenu          # Menu system for scripts
+    imagemagick    # Image manipulation for default wallpaper creation
     
     # File managers
     xfce.thunar    # Lightweight file manager

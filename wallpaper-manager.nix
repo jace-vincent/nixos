@@ -44,7 +44,12 @@
           
           # Set wallpaper using swww for Hyprland/Wayland or feh for X11
           if command -v swww &> /dev/null; then
-              swww img "$selected_wallpaper" --transition-type wipe --transition-duration 2
+              # Check if swww daemon is running, start if needed
+              if ! pgrep -x "swww-daemon" > /dev/null; then
+                  swww init
+                  sleep 1  # Give daemon time to start
+              fi
+              swww img "$selected_wallpaper" --transition-type wipe --transition-duration 1
           elif command -v plasma-apply-wallpaperimage &> /dev/null; then
               plasma-apply-wallpaperimage "$selected_wallpaper"
           else
@@ -101,6 +106,7 @@
       line_highlight="''${colors[8]}50"
       
       # Create temporary settings file with updated colors
+      # This merges colors with existing settings instead of overwriting
       jq --arg bg "$bg_color" \
          --arg fg "$fg_color" \
          --arg accent "$accent_color" \
@@ -120,13 +126,21 @@
            "statusBar.background": $accent,
            "statusBar.foreground": $bg,
            "editor.selectionBackground": $selection,
-           "editor.lineHighlightBackground": $line
+           "editor.lineHighlightBackground": $line,
+           "titleBar.activeBackground": $bg,
+           "titleBar.activeForeground": $fg,
+           "titleBar.inactiveBackground": $bg,
+           "titleBar.inactiveForeground": $fg
          }' "$VSCODE_SETTINGS" > "/tmp/vscode_settings_temp.json"
       
-      # Replace the original settings file
-      mv "/tmp/vscode_settings_temp.json" "$VSCODE_SETTINGS"
-      
-      echo "VS Code colors updated instantly!"
+      # Only replace if jq succeeded
+      if [ $? -eq 0 ]; then
+          mv "/tmp/vscode_settings_temp.json" "$VSCODE_SETTINGS"
+          echo "VS Code colors updated with pywal theme!"
+      else
+          echo "Failed to update VS Code colors"
+          rm -f "/tmp/vscode_settings_temp.json"
+      fi
     '';
     executable = true;
   };
@@ -236,6 +250,104 @@ EOF
           wal -i "$full_path"
           
           echo "Wallpaper set: $selected"
+      fi
+    '';
+    executable = true;
+  };
+  
+  # Startup wallpaper script for smooth Hyprland boot
+  home.file.".local/bin/startup-wallpaper" = {
+    text = ''
+      #!/usr/bin/env bash
+      
+      # This script runs at Hyprland startup to immediately set wallpaper
+      # preventing the default background from showing
+      
+      # Initialize swww daemon
+      swww init &
+      
+      # Wait for swww to be ready (very brief wait)
+      sleep 0.5
+      
+      # Wallpaper directory
+      WALLPAPER_DIR="$HOME/Documents/wallpapers"
+      DEFAULT_WALLPAPER="$WALLPAPER_DIR/default.jpg"
+      CACHED_WALLPAPER="$HOME/.cache/wal/wal"
+      
+      # Function to set wallpaper with no transition for startup
+      set_startup_wallpaper() {
+          local wallpaper_path="$1"
+          if [ -f "$wallpaper_path" ]; then
+              # Use immediate transition for startup
+              swww img "$wallpaper_path" --transition-type none --transition-duration 0
+              return 0
+          fi
+          return 1
+      }
+      
+      # Priority order: cached wallpaper > default > first found image
+      if set_startup_wallpaper "$CACHED_WALLPAPER"; then
+          echo "Applied cached wallpaper from pywal"
+      elif set_startup_wallpaper "$DEFAULT_WALLPAPER"; then
+          echo "Applied default wallpaper"
+      else
+          # Find any wallpaper in the directory
+          if [ -d "$WALLPAPER_DIR" ]; then
+              first_wallpaper=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) -print -quit)
+              if [ -n "$first_wallpaper" ]; then
+                  set_startup_wallpaper "$first_wallpaper"
+                  echo "Applied first available wallpaper: $(basename "$first_wallpaper")"
+              else
+                  echo "No wallpapers found in $WALLPAPER_DIR"
+              fi
+          else
+              echo "Wallpaper directory not found: $WALLPAPER_DIR"
+          fi
+      fi
+      
+      # Apply colors if pywal cache exists (but don't regenerate at startup for speed)
+      if [ -f "$HOME/.cache/wal/colors" ]; then
+          ~/.local/bin/update-vscode-colors-direct 2>/dev/null &
+      fi
+    '';
+    executable = true;
+  };
+  
+  # Script to set up wallpaper directory with a default wallpaper
+  home.file.".local/bin/setup-wallpapers" = {
+    text = ''
+      #!/usr/bin/env bash
+      
+      WALLPAPER_DIR="$HOME/Documents/wallpapers"
+      
+      echo "Setting up wallpaper directory..."
+      
+      # Create wallpaper directory if it doesn't exist
+      mkdir -p "$WALLPAPER_DIR"
+      
+      # Create a simple default wallpaper if none exists
+      if [ ! -f "$WALLPAPER_DIR/default.jpg" ] && command -v convert &> /dev/null; then
+          echo "Creating default wallpaper..."
+          # Create a simple gradient wallpaper using ImageMagick
+          convert -size 2560x1440 gradient:#1e1e2e-#313244 "$WALLPAPER_DIR/default.jpg"
+          echo "Created default gradient wallpaper"
+      fi
+      
+      # Check for existing wallpapers
+      wallpaper_count=$(find "$WALLPAPER_DIR" -type f \( -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.png" -o -iname "*.webp" \) | wc -l)
+      
+      if [ "$wallpaper_count" -eq 0 ]; then
+          echo ""
+          echo "No wallpapers found in $WALLPAPER_DIR"
+          echo "Please add some wallpaper images (jpg, png, webp) to this directory."
+          echo ""
+          echo "You can:"
+          echo "1. Copy your favorite wallpapers to $WALLPAPER_DIR"
+          echo "2. Download wallpapers from the internet"
+          echo "3. Use the current setup with a solid color background"
+      else
+          echo "Found $wallpaper_count wallpaper(s) in $WALLPAPER_DIR"
+          echo "Run 'wallpaper-select' to choose a wallpaper!"
       fi
     '';
     executable = true;

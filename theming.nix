@@ -160,13 +160,12 @@
         "$mod, mouse:273, resizewindow"
       ];
       
-      # Startup applications
+      # Startup applications with optimized wallpaper loading
       exec-once = [
+        # Initialize wallpaper daemon early with immediate wallpaper
+        "~/.local/bin/startup-wallpaper"
         "waybar"
         "mako"
-        "swww init"
-        # Apply wallpaper from pywal cache if available
-        "swww img ~/.cache/wal/wal || swww img ~/Documents/wallpapers/default.jpg"
       ];
     };
   };
