@@ -31,18 +31,10 @@ in
   # Install Zen Browser using our custom package
   home.packages = [ zen-browser ];
 
-  # Set Zen Browser as the default browser (xdg settings)
-  xdg.mimeApps = {
-    enable = true;
-    defaultApplications = {
-      "x-scheme-handler/http" = [ "zen-browser.desktop" ];
-      "x-scheme-handler/https" = [ "zen-browser.desktop" ];
-      "text/html" = [ "zen-browser.desktop" ];
-      "application/xhtml+xml" = [ "zen-browser.desktop" ];
-    };
-  };
+  # Note: Not setting as default browser to keep Chrome for VS Code git auth
+  # Zen Browser is available via 'zen-browser' command or 'zen' alias
 
-  # Optional: Add a shell alias for launching Zen Browser
+  # Add a shell alias for launching Zen Browser
   programs.bash.shellAliases.zen = "zen-browser";
   programs.zsh.shellAliases.zen = "zen-browser";
 }
