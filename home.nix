@@ -6,6 +6,7 @@
     ./wallpaper-manager.nix
     ./wallet-manager.nix
     ./theming.nix
+    ./zen-browser.nix
   ];
 
   home.username = "jacev";
