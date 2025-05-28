@@ -4,6 +4,7 @@
   imports = [
     ./modules/programs/vscode.nix
     ./modules/programs/alacritty.nix
+    ./modules/programs/git.nix
     ./wallpaper-manager.nix
     ./wallet-manager.nix
     ./theming.nix
@@ -14,8 +15,6 @@
 
   home.username = "jacev";
   home.homeDirectory = "/home/jacev";
-
-  programs.git.enable = true;
 
   home.stateVersion = "24.05";
 }
