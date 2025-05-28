@@ -2,7 +2,7 @@
 
 {
   imports = [
-    ./vscode.nix
+    ./modules/programs/vscode.nix
     ./wallpaper-manager.nix
     ./wallet-manager.nix
     ./theming.nix
