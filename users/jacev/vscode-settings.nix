@@ -65,8 +65,8 @@ in {
     "debug.console.fontSize" = 16;
     "markdown.preview.fontSize" = 16;
     
-    # Terminal configuration - zsh as default
-    "terminal.integrated.defaultProfile.linux" = "zsh";
+    # Terminal configuration - bash as default for testing
+    "terminal.integrated.defaultProfile.linux" = "bash";
     "terminal.integrated.profiles.linux" = {
       "bash" = {
         "path" = "/run/current-system/sw/bin/bash";
@@ -80,7 +80,7 @@ in {
     
     # Environment variables for keyring integration
     "terminal.integrated.env.linux" = {
-      "SHELL" = "/run/current-system/sw/bin/zsh";
+      "SHELL" = "/run/current-system/sw/bin/bash";
       "GNOME_KEYRING_CONTROL" = "\${XDG_RUNTIME_DIR}/keyring";
       "SSH_AUTH_SOCK" = "\${XDG_RUNTIME_DIR}/keyring/ssh";
       "KDE_SESSION_VERSION" = "";
