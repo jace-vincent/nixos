@@ -11,6 +11,29 @@
     # NixOS management
     nrs = "sudo nixos-rebuild switch --flake .#nixos";
     
+    # Git shortcuts - common operations
+    gst = "git status";              # Quick status check
+    gco = "git checkout";            # Switch branches or restore files
+    gbr = "git branch";              # List or manage branches
+    gci = "git commit";              # Create commits
+    
+    # Git advanced shortcuts - workflow helpers
+    gunstage = "git reset HEAD --";  # Remove files from staging area
+    glast = "git log -1 HEAD";       # Show the last commit
+    gvisual = "gitk";                # Open graphical git history viewer
+    
+    # Git log formatting - pretty output
+    glg = "git log --oneline --graph --decorate";     # One-line log with graph
+    glga = "git log --oneline --graph --decorate --all"; # Log with all branches
+    
+    # Git quick commit workflows - fast operations
+    gac = "git add -A && git commit -m";  # Add all changes and commit with message
+    gsave = "git add -A && git commit -m 'SAVEPOINT'";  # Quick savepoint commit
+    gundo = "git reset HEAD~1 --mixed";   # Undo last commit but keep changes
+    
+    # Git branch management - cleanup operations
+    gcleanup = "git branch --merged | grep -v '\\*\\|master\\|main' | xargs -n 1 git branch -d"; # Remove merged branches
+    
     # Wallpaper management
     wal = "wallpaper-select";
     setup-wal = "setup-wallpapers";
