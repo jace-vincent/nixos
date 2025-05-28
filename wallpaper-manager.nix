@@ -152,7 +152,7 @@
       
       # Path to pywal colors
       COLORS_FILE="$HOME/.cache/wal/colors"
-      VSCODE_NIX_FILE="/etc/nixos/vscode.nix"
+      VSCODE_NIX_FILE="/etc/nixos/modules/programs/vscode.nix"
       
       # Check if pywal colors exist
       if [ ! -f "$COLORS_FILE" ]; then
@@ -431,7 +431,7 @@ EOF
       echo "🔄 VS Code Terminal Configuration"
       echo ""
       echo "Terminal configuration is now managed declaratively through your Nix configuration."
-      echo "The terminal default profile and environment are set in /etc/nixos/vscode.nix"
+      echo "The terminal default profile and environment are set in /etc/nixos/modules/programs/vscode.nix"
       echo ""
       echo "Current declarative configuration:"
       echo "- Default terminal: zsh"
@@ -439,7 +439,7 @@ EOF
       echo "- Environment includes GNOME Keyring integration"
       echo ""
       echo "To apply configuration changes:"
-      echo "1. Edit /etc/nixos/vscode.nix if needed"
+      echo "1. Edit /etc/nixos/modules/programs/vscode.nix if needed"
       echo "2. Run: sudo nixos-rebuild switch --flake .#nixos"
       echo "3. Restart VS Code"
       echo ""
