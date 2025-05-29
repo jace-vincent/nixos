@@ -7,7 +7,9 @@
     ./modules/programs/git.nix
     ./wallpaper-manager.nix
     ./wallet-manager.nix
-    ./theming.nix
+    ./users/jacev/hyprland-settings.nix
+    ./users/jacev/waybar-settings.nix
+    ./users/jacev/mako-settings.nix
     ./zen-browser.nix
     ./modules/shell/zsh.nix
     ./modules/shell/bash.nix

@@ -1,18 +1,18 @@
 { config, pkgs, ... }:
+
 {
-  # User profile for jacev - system-level user account configuration
+  # User account configuration for jacev
   users.users.jacev = {
     isNormalUser = true;
     description = "Jace Vincent";
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
-      # User-specific packages go here
-      # Desktop environment packages are managed in modules/desktop/
+      kdePackages.kate
       # thunderbird
     ];
   };
 
-  # Auto-login configuration
+  # Display manager auto-login configuration
   services.displayManager.autoLogin.enable = true;
   services.displayManager.autoLogin.user = "jacev";
 }

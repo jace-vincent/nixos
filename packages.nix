@@ -47,7 +47,7 @@
     gnome-keyring   # Secret storage
     libsecret       # For applications to access secrets
     seahorse        # GUI for managing secrets
-    kdePackages.polkit-kde-agent-1 # Authentication agent for GUI apps
+    # Authentication agents are managed by desktop environment modules
     
     # File managers
     xfce.thunar    # Lightweight file manager
