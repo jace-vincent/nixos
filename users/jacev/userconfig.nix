@@ -1,5 +1,10 @@
   {config, pkgs, ...}:
+
   {
+  imports = [
+  ./programs/git.nix
+  ];
+
   # Here is where we define all of the user specific configs and packages
     users.users.jacev = {
       isNormalUser = true;
