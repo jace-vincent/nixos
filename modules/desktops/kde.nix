@@ -11,11 +11,6 @@
   kdePackages.konsole
   kdePackages.dolphin
   kdePackages.spectacle
-  ]
-  
-  $ Auto-login 
-  services.displayManager.autoLogin = {
-    enable = true;
-    user = "jacev"
-  };
+  ];
+
 }
