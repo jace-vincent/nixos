@@ -1,6 +1,8 @@
-# Build Outputs
+# Flakes  
 result
 result-*
+flake.lock
+.direnv/
 
 # Editor files
 .vscode/
