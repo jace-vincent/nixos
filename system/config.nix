@@ -5,14 +5,12 @@
     # that go a bit beyond simply installing them as a package
     imports = [
     ../themes/basic.nix # Very spartan theme designed for reliability
-    ../modules/hardware/audio.nix # very important! 
+    ../modules/hardware/audio.nix # very important!
+    ../modules/services/networking.nix # get connected, for free, with education connection
     ../modules/services/printing.nix # not required but very useful
     ../modules/programs/firefox.nix # our default system browser
     ../modules/programs/git.nix # everybody needs git
     ];
-
-    # Enable networking
-    networking.networkmanager.enable = true;
 
     # Set your time zone.
     time.timeZone = "America/Denver";
