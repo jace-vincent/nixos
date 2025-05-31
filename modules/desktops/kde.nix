@@ -3,8 +3,8 @@
 {
  
   # Enabling Plasma 6
-  services.desktopManager.plasma6.enable = true;
   services.displayManager.sddm.enable = true; 
+  services.desktopManager.plasma6.enable = true;
   
   # KDE Plasma specific packages 
   environment.systemPackages = with pkgs; [
