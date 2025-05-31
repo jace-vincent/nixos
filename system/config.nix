@@ -4,6 +4,7 @@
     # imports in our system/config file are mostly just programs we want to set some default configs on
     # that go a bit beyond simply installing them as a package
     imports = [
+    ../modules/desktops/gnome.nix # We have to choose our env before selecting our theme
     ../themes/basic.nix # Very spartan theme designed for reliability
     ../modules/hardware/audio.nix # very important!
     ../modules/services/networking.nix # get connected, for free, with education connection
