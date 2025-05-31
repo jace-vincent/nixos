@@ -4,6 +4,7 @@
     # imports in our system/config file are mostly just programs we want to set some default configs on
     # that go a bit beyond simply installing them as a package
     imports = [
+    ../themes/basic.nix # Very spartan theme designed for reliability
     ../modules/hardware/audio.nix # very important! 
     ../modules/services/printing.nix # not required but very useful
     ../modules/programs/firefox.nix # our default system browser
