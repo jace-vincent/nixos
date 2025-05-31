@@ -8,17 +8,18 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./modules/hardware/bootloader.nix
       ./users/jacev/userconfig.nix
       ./system/config.nix
     ];
 
   # Bootloader. 
-  boot.loader.grub.enable = true;
-  boot.loader.grub.device = "/dev/sda";
-  boot.loader.grub.useOSProber = true;
+  #  boot.loader.grub.enable = true;
+  #  boot.loader.grub.device = "/dev/sda";
+  #  boot.loader.grub.useOSProber = true;
 
   # Use latest kernel.
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  #  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
