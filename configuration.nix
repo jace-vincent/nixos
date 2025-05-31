@@ -9,6 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./users/jacev/userconfig.nix
+      ./system/config.nix
     ];
 
   # Bootloader.
@@ -108,13 +109,13 @@
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
+  #  environment.systemPackages = with pkgs; [
   #  wget
-  neovim
-  git
-  alacritty
-  ];
-
+  #  neovim
+  #  git
+  #  alacritty
+  #  ];
+  
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   # programs.mtr.enable = true;
