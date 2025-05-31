@@ -13,7 +13,7 @@
     # ../modules/desktops/gnome.nix 
     ../modules/desktops/kde.nix
 
-    ../themes/kde/plush-plasma.nix # a Regal KDE Experience
+    ../themes/kde/black-plasma.nix # a Regal KDE Experience
     ../modules/hardware/virtualbox.nix # only required on a VM
     ../modules/hardware/audio.nix # very important!
     ../modules/services/networking.nix # get connected, for free!
