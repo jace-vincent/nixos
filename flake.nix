@@ -9,10 +9,12 @@
   
   outputs = { self, nixpkgs, ...}: {
     nixosConfigurations = {
-      system = "x86_64-linux";
-      modules = [
+      nixos = nixpkgs.lib.nixosSystem {
+        system = "x86_64-linux";
+        modules = [
         ./configuration.nix
       ];
     };
   };
+ };
 }

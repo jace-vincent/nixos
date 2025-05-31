@@ -13,7 +13,8 @@
     # ../modules/desktops/gnome.nix 
     ../modules/desktops/kde.nix
 
-    ../themes/basic.nix # Very spartan theme designed for reliability
+    ../themes/kde/plush-plasma.nix # a Regal KDE Experience
+    ../modules/hardware/virtualbox.nix # only required on a VM
     ../modules/hardware/audio.nix # very important!
     ../modules/services/networking.nix # get connected, for free!
     ../modules/services/printing.nix # not required but very useful
