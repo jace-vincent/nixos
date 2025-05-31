@@ -8,6 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./users/jacev/userconfig.nix
     ];
 
   # Bootloader.
@@ -82,14 +83,14 @@
   # services.xserver.libinput.enable = true;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.jacev = {
-    isNormalUser = true;
-    description = "Jace Vincent";
-    extraGroups = [ "networkmanager" "wheel" ];
-    packages = with pkgs; [
-    #  thunderbird
-    ];
-  };
+  #  users.users.jacev = {
+  #    isNormalUser = true;
+  #    description = "Jace Vincent";
+  #    extraGroups = [ "networkmanager" "wheel" ];
+  #    packages = with pkgs; [
+  #    #  thunderbird
+  #    ];
+  #  };
 
   # Enable automatic login for the user.
   services.displayManager.autoLogin.enable = true;
