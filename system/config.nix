@@ -1,9 +1,11 @@
   {config, pkgs, ...}:
   
   {
+    
     # imports in our system/config file are mostly just programs we 
     # want to set some default configs on that go a bit beyond simply
     # installing them as a package
+
     imports = [ 
     # We have to choose our env before
     # selecting our theme
@@ -18,6 +20,10 @@
     ../modules/programs/firefox.nix # our default system browser
     ../modules/programs/git.nix # everybody needs git
     ];
+
+
+    # System-wide settings and policies
+
 
     nixpkgs.config.allowUnfree = true;
 
@@ -43,11 +49,15 @@
       LC_TIME = "en_US.UTF-8";
     };
 
-    # List packages installed in system profile. To search, run:
+
+
+    # These packages are installed by our system profile. To search, run:
     # $ nix search wget
     environment.systemPackages = with pkgs; [
     wget
     neovim
     alacritty
     ];
+
+
   }
