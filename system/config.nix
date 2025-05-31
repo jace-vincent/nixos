@@ -12,6 +12,11 @@
     ../modules/programs/git.nix # everybody needs git
     ];
 
+    nixpkgs.config.allowUnfree = true;
+
+    networking.hostName = "nixos"; # Define your hostname.
+    # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
+
     # Set your time zone.
     time.timeZone = "America/Denver";
 
