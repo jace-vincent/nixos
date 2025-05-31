@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./modules/hardware/bootloader.nix
-      ./users/jacev/userconfig.nix
+      ./users/jacev/config.nix
       ./system/config.nix
     ];
 
