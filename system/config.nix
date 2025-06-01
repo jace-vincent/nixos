@@ -16,7 +16,6 @@
     ../modules/services/x11.nix # we do this here, unrelated from HM themes
     # ../modules/hardware/wayland.nix # TO-DO
 
-    ../themes/kde/black-plasma.nix # a Regal KDE Experience
     ../modules/hardware/virtualbox.nix # only required on a VM
     ../modules/hardware/audio.nix # very important!
     ../modules/services/networking.nix # get connected, for free!
@@ -27,7 +26,6 @@
 
 
     # System-wide settings and policies
-
 
     nixpkgs.config.allowUnfree = true;
 
@@ -58,10 +56,8 @@
     # These packages are installed by our system profile. To search, run:
     # $ nix search wget
     environment.systemPackages = with pkgs; [
-    wget
-    neovim
-    alacritty
+      wget
+      neovim
+      alacritty
     ];
-
-
   }
