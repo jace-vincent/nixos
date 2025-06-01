@@ -13,6 +13,9 @@
     # ../modules/desktops/gnome.nix 
     ../modules/desktops/kde.nix
 
+    ../modules/services/x11.nix # we do this here, unrelated from HM themes
+    # ../modules/hardware/wayland.nix # TO-DO
+
     ../themes/kde/black-plasma.nix # a Regal KDE Experience
     ../modules/hardware/virtualbox.nix # only required on a VM
     ../modules/hardware/audio.nix # very important!
