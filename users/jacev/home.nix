@@ -1,5 +1,5 @@
 # users/jacev/home.nix
-{config, pkgs, ...}:
+{config, lib, pkgs, ...}:
 
 {
   # Define username and our home directory
@@ -7,9 +7,13 @@
   home.homeDirectory = "/home/jacev";
 
   # Import our user-specific theme
+  # imports =  [
+  #   ../../themes/kde/black-plasma.nix
+  # ];
+
   home.packages = with pkgs; [
-  # ../../themes/kde/black-plasma.nix
-    htop
+    kdePackages.breeze-gtk
+    kdePackages.breeze-icons
   ];
   
   programs.home-manager.enable = true;
