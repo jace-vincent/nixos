@@ -19,15 +19,15 @@
       # Font configuration
       font = {
         normal = {
-          family = "";
+          family = "JetBrainsMono Nerd Font";
           style = "Regular";
         };
         bold = {
-          family = "FiraCode Nerd Font";
+          family = "JetBrainsMono Nerd Font";
           style = "Bold";
         };
         italic = {
-          family = "FiraCode Nerd Font";
+          family = "JetBrainsMono Nerd Font";
           style = "Italic";
         };
         size = 12.0;
@@ -80,7 +80,6 @@
 
   # Personal font preferences
   home.packages = with pkgs; [
-  nerd-fonts.fira-code
-  nerd-fonts.droid-sans-mono
+  nerd-fonts.jetbrains-mono
   ];
 }
