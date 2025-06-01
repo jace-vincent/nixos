@@ -8,8 +8,10 @@
 
   # Import our user-specific theme
     imports =  [
-      ../../themes/kde/black-plasma.nix
-      ./aliases.nix
+      ../../themes/kde/black-plasma.nix # Choose a theme
+      ../../modules/programs/zsh.nix # Your default shell
+      ./programs/alacritty.nix 
+      ./aliases.nix # Customize deeply
     ];
 
   programs.home-manager.enable = true;
