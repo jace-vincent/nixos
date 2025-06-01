@@ -9,6 +9,7 @@
   # Import our user-specific theme
     imports =  [
       ../../themes/kde/black-plasma.nix
+      ./aliases.nix
     ];
 
   programs.home-manager.enable = true;
