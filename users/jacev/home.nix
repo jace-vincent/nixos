@@ -1,20 +1,22 @@
-{ config, pkgs, ... }:
+{ config, pkgs, userSettings, ... }:
 
 {
-  imports = [
-    ../../modules/programs/vscode.nix
-    ../../modules/programs/alacritty.nix
-    ../../modules/programs/git.nix
-    ../../wallpaper-manager.nix
-    ../../wallet-manager.nix
-    ../../users/jacev/waybar-settings.nix
-    ../../users/jacev/mako-settings.nix
-    ../../modules/shell/zsh.nix
-    ../../modules/shell/bash.nix
-  ];
+	home.username = userSettings.username;
+	home.homeDirectory = "/home"=+userSettings.username;
 
-  home.username = "jacev";
-  home.homeDirectory = "/home/jacev";
+	programs.home-manager.enable = true;
 
-  home.stateVersion = "24.05";
+  	imports = [
+    	../../modules/programs/vscode.nix
+    	../../modules/programs/alacritty.nix
+    	../../modules/programs/git.nix
+    	../../wallpaper-manager.nix
+    	../../wallet-manager.nix
+    	../../users/jacev/waybar-settings.nix
+    	../../users/jacev/mako-settings.nix
+    	../../modules/shell/zsh.nix
+    	../../modules/shell/bash.nix
+  	];
+	
+  	home.stateVersion = "24.05";
 }
