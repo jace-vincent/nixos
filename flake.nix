@@ -16,7 +16,7 @@
         username = "jace";
         name = "Jace";
         email = "txjacev@gmail.com";
-        dotfilesDir = "~/.dotfiles"; # fixed typo
+        dotfilesDir = "~/.dotfiles"; 
         theme = "";
         wm = "kde";
         browser = "firefox";
@@ -68,8 +68,24 @@
           else import inputs.nixpkgs-unstable { inherit system; }
       );
     in
-    {
-      nixosConfigurations = {
+      {
+ 	homeConfigurations = {
+        	user = home-manager.lib.homeManagerConfiguration {
+          		inherit pkgs;
+          		modules = [
+            		(./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix") # load home.nix from selected PROFILE
+          		];
+          		extraSpecialArgs = {
+            			# pass config variables from above
+            			inherit pkgs-stable;
+            			inherit systemSettings;
+            			inherit userSettings;
+            			inherit inputs;
+          		};
+        	};
+	};
+
+	nixosConfigurations = {
         nixos = lib.nixosSystem {
           system = systemSettings.system;
           modules = [ ./configuration.nix ];
