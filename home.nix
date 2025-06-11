@@ -9,7 +9,6 @@
     ./wallet-manager.nix
     ./users/jacev/waybar-settings.nix
     ./users/jacev/mako-settings.nix
-    ./zen-browser.nix
     ./modules/shell/zsh.nix
     ./modules/shell/bash.nix
   ];

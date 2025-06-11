@@ -12,10 +12,12 @@
     settings = {
       default_session = {
         command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd Hyprland";
-        user = "greeter";
+        user = "jacev";
       };
     };
   };
+
+  services.getty.autologinUser = "jacev";
 
   # Disable conflicting services
   services.xserver.enable = false;
@@ -53,7 +55,7 @@
     QT_FONT_DPI = "144";  # 96 * 1.5 for 4K scaling
     
     # Cursor scaling
-    XCURSOR_SIZE = "32";
+    XCURSOR_SIZE = "42";
     
     # Additional Wayland scaling
     MOZ_ENABLE_WAYLAND = "1";  # Firefox Wayland support
@@ -70,14 +72,14 @@
 
   # Additional packages needed for Hyprland
   environment.systemPackages = with pkgs; [
-    waybar          # Status bar
-    wofi           # Application launcher (dmenu replacement)
-    swww           # Wallpaper daemon for Wayland
-    grim           # Screenshot utility
-    slurp          # Screen area selection
+    # waybar          # Status bar
+    # wofi           # Application launcher (dmenu replacement)
+    # swww           # Wallpaper daemon for Wayland
+    # grim           # Screenshot utility
+    # slurp          # Screen area selection
     wl-clipboard   # Clipboard manager
     mako           # Notification daemon
-    brightnessctl  # Brightness control
+    # brightnessctl  # Brightness control
     playerctl      # Media player control
   ];
 }

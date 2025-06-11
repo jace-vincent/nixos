@@ -17,12 +17,15 @@
     zsh             # Z shell - needed for VS Code terminal integration
     
     # System utilities
-    neofetch
+    fastfetch
     home-manager
     cbonsai
     wget
     curl
     btop
+
+    # Text Editors
+    neovim
     
     # Hyprland and Wayland tools
     hyprland

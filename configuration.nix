@@ -10,11 +10,11 @@
       ./hardware-configuration.nix
       ./profiles/jacev.nix
       ./theme-selector.nix  # Theme-based desktop environment selection
-      ./networking.nix
+      ./modules/system/networking.nix
       ./packages.nix
       ./services.nix
       ./nvidia.nix
-      ./localization.nix
+      ./modules/system/localization.nix
     ];
 
   # Bootloader.
