@@ -42,14 +42,6 @@ in
       setopt AUTO_CD              # Just type directory name to cd
       setopt CORRECT              # Spell correction
       setopt COMPLETE_IN_WORD     # Allow completion in middle of word
-      
-      # Welcome message for new zsh users
-      echo "Welcome to zsh! 🐚"
-      echo "Try these features:"
-      echo "  - Tab completion (more powerful than bash)"
-      echo "  - Type a directory name to cd into it"
-      echo "  - Use ** for recursive globbing (ls **/*.nix)"
-      echo "  - Arrow keys for history navigation"
     '';
     
     # Enable command history search with arrow keys
