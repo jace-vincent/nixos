@@ -9,7 +9,7 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./profiles/jacev.nix
-      ./theme-selector.nix  # Theme-based desktop environment selection
+      ./modules/themes/theme-selector.nix  # Theme-based desktop environment selection
       ./modules/system/networking.nix
       ./modules/system/packages.nix
       ./modules/system/services.nix

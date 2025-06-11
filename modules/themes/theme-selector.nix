@@ -9,7 +9,7 @@
   
   imports = [
     # ACTIVE THEME - Change this line to switch themes
-    ./themes/hyprland-static.nix
+    ../../themes/hyprland-static.nix
     
     # Add additional theme imports here if you want to layer themes
   ];
