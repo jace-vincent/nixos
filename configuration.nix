@@ -11,8 +11,8 @@
       ./profiles/jacev.nix
       ./theme-selector.nix  # Theme-based desktop environment selection
       ./modules/system/networking.nix
-      ./packages.nix
-      ./services.nix
+      ./modules/system/packages.nix
+      ./modules/system/services.nix
       ./modules/system/nvidia.nix
       ./modules/system/localization.nix
     ];
