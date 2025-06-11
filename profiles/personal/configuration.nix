@@ -7,14 +7,14 @@
 {
   imports =
     [ # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./profiles/jacev.nix
-      ./modules/themes/theme-selector.nix  # Theme-based desktop environment selection
-      ./modules/system/networking.nix
-      ./modules/system/packages.nix
-      ./modules/system/services.nix
-      ./modules/system/nvidia.nix
-      ./modules/system/localization.nix
+      ../../hardware-configuration.nix
+      ../../profiles/jacev.nix
+      ../../modules/themes/theme-selector.nix  # Theme-based desktop environment selection
+      ../../modules/system/networking.nix
+      ../../modules/system/packages.nix
+      ../../modules/system/services.nix
+      ../../modules/system/nvidia.nix
+      ../../modules/system/localization.nix
     ];
 
   # Bootloader.

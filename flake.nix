@@ -88,7 +88,9 @@
 	nixosConfigurations = {
         nixos = lib.nixosSystem {
           system = systemSettings.system;
-          modules = [ ./configuration.nix ];
+          modules = [ 
+ 		(./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
+	  ];
           specialArgs = {
             inherit pkgs-stable;
             inherit pkgs-unstable;
