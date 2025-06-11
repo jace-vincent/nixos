@@ -13,7 +13,7 @@
       ./modules/system/networking.nix
       ./packages.nix
       ./services.nix
-      ./nvidia.nix
+      ./modules/system/nvidia.nix
       ./modules/system/localization.nix
     ];
 
