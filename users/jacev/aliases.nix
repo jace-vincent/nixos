@@ -15,7 +15,7 @@
     hrs = "home-manager switch --flake .#user";
 
     # Git shortcuts - common operations
-    ga = "git add";                  # Add files to staging branch
+    ga = "git add ";                  # Add files to staging branch
     gst = "git status";              # Quick status check
     gco = "git checkout";            # Switch branches or restore files
     gbr = "git branch";              # List or manage branches

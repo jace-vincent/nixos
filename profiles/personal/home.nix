@@ -4,8 +4,6 @@
 	home.username = userSettings.username;
 	home.homeDirectory = "/home/"+userSettings.username;
 
-	programs.home-manager.enable = true;
-
   	imports = [
     	../../modules/programs/vscode.nix
     	../../modules/programs/alacritty.nix
@@ -16,6 +14,7 @@
     	../../users/jacev/mako-settings.nix
     	../../modules/shell/zsh.nix
     	../../modules/shell/bash.nix
+	../../modules/utilities/swww.nix
   	];
 	
   	home.stateVersion = "24.05";
