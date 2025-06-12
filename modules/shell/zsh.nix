@@ -9,7 +9,7 @@ in
     
     # Import user-specific aliases
     shellAliases = userAliases.shellAliases;
-    
+
     # Configure a custom prompt and zsh features
     initContent = ''
       # Custom prompt - similar to what you might be used to

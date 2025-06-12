@@ -15,7 +15,6 @@
       ../../modules/system/services.nix
       ../../modules/system/nvidia.nix
       ../../modules/system/localization.nix
-      ../../modules/system/phoenix.nix
     ];
 
   # Bootloader.
