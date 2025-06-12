@@ -19,7 +19,7 @@
     gst = "git status";              # Quick status check
     gco = "git checkout";            # Switch branches or restore files
     gbr = "git branch";              # List or manage branches
-    gci = "git commit";              # Create commits
+    gci = "git commit -m";              # Create commits
     
     # Git advanced shortcuts - workflow helpers
     gunstage = "git reset HEAD --";  # Remove files from staging area
