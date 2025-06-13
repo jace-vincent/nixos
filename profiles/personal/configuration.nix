@@ -8,7 +8,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ../../hardware-configuration.nix
-      ../../profiles/jacev.nix
+      ../../users/jacev.nix
       ../../modules/themes/theme-selector.nix  # Theme-based desktop environment selection
       ../../modules/system/networking.nix
       ../../modules/system/packages.nix

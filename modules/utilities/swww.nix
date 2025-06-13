@@ -6,6 +6,7 @@
 
   xdg.configFile."hypr/hyprland.conf".text = ''
     exec-once = swww-daemon
-    exec-once = swww img ~/Documents/wallpapers/yourwallpaper.png
   '';
+    # exec-once = swww img ~/Documents/wallpapers/pixel_secluded-grove.png
+  #'';
 }
