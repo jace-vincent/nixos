@@ -81,7 +81,6 @@ in
       
       # Launch VS Code with proper scaling and keyring flags
       exec code \
-        --force-device-scale-factor=1.5 \
         --enable-features=UseOzonePlatform \
         --ozone-platform=wayland \
         --enable-wayland-ime \
