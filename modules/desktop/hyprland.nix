@@ -74,7 +74,7 @@
   environment.systemPackages = with pkgs; [
     # waybar          # Status bar
     # wofi           # Application launcher (dmenu replacement)
-    swww           # Wallpaper daemon for Wayland
+    # swww           # Wallpaper daemon for Wayland
     # grim           # Screenshot utility
     # slurp          # Screen area selection
     wl-clipboard   # Clipboard manager

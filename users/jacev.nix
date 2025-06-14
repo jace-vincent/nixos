@@ -8,7 +8,7 @@
     packages = with pkgs; [
       # User-specific packages go here
       # Desktop environment packages are managed in modules/desktop/
-      # thunderbird
+      obsidian
     ];
   };
 
