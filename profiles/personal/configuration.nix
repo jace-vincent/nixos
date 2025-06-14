@@ -49,6 +49,12 @@
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
 
+  # Enable GNOME Keyring as a service
+  services.gnome.gnome-keyring.enable = true;
+
+  # Ensure PAM integration for login/session unlock (especially for GDM)
+  security.pam.services.gdm.enableGnomeKeyring = true;
+
   # Configure keymap in X11
   services.xserver.xkb = {
     layout = "us";
