@@ -2,20 +2,16 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, home-manager, userSettings, systemSettings, ... }:
+{ config, inputs, pkgs, userSettings, ... }:
 
 {
   imports = 
     [ # Include the results of the hardware scan.
       ../../system/hardware-configuration.nix
-      home-manager
+      inputs.home-manager-unstable.nixosModules.home-manager
     ];
 
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  nix.settings.experimental-features = ["nix-command" "flakes"];
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -120,11 +116,22 @@
     obsidian
   ];
 
-  # Enable the Home Manager NixOS module
-  # programs.home-manager.enable = true;
+  # Configure Home Manager
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {
+      inherit inputs userSettings;
+    };
+    users.jacev = import ./home.nix;
+  };
 
-  # Define your user and point to your home.nix
-  # home-manager.users.${userSettings.username} = import ../../users/${userSettings.username}/home.nix;
+  # Enable documentation
+  documentation = {
+    enable = true;
+    man.enable = true;
+    nixos.enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

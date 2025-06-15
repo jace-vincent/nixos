@@ -54,9 +54,9 @@
         then inputs.home-manager-stable.nixosModules.home-manager
         else inputs.home-manager-unstable.nixosModules.home-manager;
 
-      plasma-manager = if ((systemSettings.profile == "homelab") || (systemSettings.profile == "work"))
-        then inputs.plasma-manager-stable
-        else inputs.plasma-manager-unstable;
+  #      plasma-manager = if ((systemSettings.profile == "homelab") || (systemSettings.profile == "work"))
+  #        then inputs.plasma-manager-stable
+  #        else inputs.plasma-manager-unstable;
 
       supportedSystems = [ "aarch64-linux" "i686-linux" "x86_64-linux" ];
 
@@ -116,16 +116,16 @@
       inputs.nixpkgs.follows = "nixpkgs-stable";
     };
 
-    plasma-manager-unstable = {
-      url = "github:pjones/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs-unstable";
-      inputs.home-manager.follows = "home-manager-unstable";
-    };
-
-    plasma-manager-stable = {
-      url = "github:pjones/plasma-manager";
-      inputs.nixpkgs.follows = "nixpkgs-stable";
-      inputs.home-manager.follows = "home-manager-stable";
-    };
+  #    plasma-manager-unstable = {
+  #      url = "github:pjones/plasma-manager";
+  #      inputs.nixpkgs.follows = "nixpkgs-unstable";
+  #      inputs.home-manager.follows = "home-manager-unstable";
+  #    };
+  #
+  #    plasma-manager-stable = {
+  #      url = "github:pjones/plasma-manager";
+  #      inputs.nixpkgs.follows = "nixpkgs-stable";
+  #      inputs.home-manager.follows = "home-manager-stable";
+  #    };
   };
 }
