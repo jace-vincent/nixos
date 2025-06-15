@@ -2,17 +2,25 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, pkgs, ... }:
+{ config, inputs, pkgs, userSettings, ... }:
 
 {
   imports =
     [ # Include the results of the hardware scan.
       ../../system/hardware-configuration.nix
+      inputs.home-manager-unstable.nixosModules.home-manager
     ];
 
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
+  nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  # Bootloader - uncomment when on Laptop
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Bootloader - uncomment when on VM
+  boot.loader.grub.enable = true;
+  boot.loader.grub.device = "/dev/sda";
+  boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
@@ -115,6 +123,23 @@
     # libsecret
     #  wget
   ];
+
+  # Configure Home Manager
+  home-manager = {
+    useGlobalPkgs = true;
+    useUserPackages = true;
+    extraSpecialArgs = {
+      inherit inputs userSettings;
+    };
+    users.jacev = import ./home.nix;
+  };
+
+  # Enable documentation
+  documentation = {
+    enable = true;
+    man.enable = true;
+    nixos.enable = true;
+  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
