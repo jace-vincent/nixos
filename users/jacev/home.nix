@@ -13,6 +13,7 @@ in
 
   imports = [
     themeModule
+    ./modules/vscode.nix
   ];
 
   # Here is where you can install user specific packages. 
