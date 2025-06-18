@@ -17,8 +17,8 @@
         name = "Jace";
         email = "txjacev@gmail.com";
         dotfilesDir = "~/.dotfiles"; 
-        theme = "black-plasma";
-        wm = "kde";
+        theme = "dark";
+        wm = "gnome";
         browser = "firefox";
         terminal = "alacritty";
         font = "Intel One Mono";

@@ -1,29 +1,25 @@
 { config, pkgs, userSettings, ... }:
 
+# First we define our theme module conditionally based on the selection in our flake.nix
+let 
+  themeModule = if userSettings.theme == "dark" then
+    ../../themes/dark.nix
+  else 
+    null;
+in
 {
-
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage.
   home.username = "jacev";
   home.homeDirectory = "/home/jacev";
 
-  # This value determines the Home Manager release that your configuration is
-  # compatible with. This helps avoid breakage when a new Home Manager release
-  # introduces backwards incompatible changes.
-  #
-  # You should not change this value, even if you update Home Manager. If you do
-  # want to update the value, then make sure to first check the Home Manager
-  # release notes.
-  home.stateVersion = "25.05"; # Please read the comment before changing.
+  imports = [
+    themeModule
+  ];
 
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
+  # Here is where you can install user specific packages. 
+  # With our system, most of the time we will be importing these as modules.
   home.packages = [
     # pkgs.libsecret
     # pkgs.seahorse
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    pkgs.hello
     pkgs.obsidian
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -40,8 +36,7 @@
     # '')
   ];
 
-  # Home Manager is pretty good at managing dotfiles. The primary way to manage
-  # plain files is through 'home.file'.
+  # The home.file function is how you can create .config files. It is used in module files
   home.file = {
     # # Building this configuration will create a copy of 'dotfiles/screenrc' in
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
@@ -75,23 +70,18 @@
     # EDITOR = "emacs";
   };
 
-  # Let Home Manager install and manage itself.
-  # Commented out because chatgpt says that's incorrect when using home manager as a module. Not sure?
-  # programs.home-manager.enable = true;
-
-  # Copied from old user home.nix. 
    programs.git = {
     enable = true;
-    # Enable after getting the hard coded version to work 
     userName = userSettings.name;    # Uses your flake variable
     userEmail = userSettings.email;  # Uses your flake variable
-    #  userName = "Jace Vincent";
-    #  userEmail = "txjacev@gmail.com";
-    
-
-    # used to set up password remembering. Try enabling once git is configured enough to commit
-    # extraConfig = {
-      # credential.helper = "${pkgs.git-credential-libsecret}/bin/git-credential-libsecret";
-    # };
    };
+
+  # This value determines the Home Manager release that your configuration is
+  # compatible with. This helps avoid breakage when a new Home Manager release
+  # introduces backwards incompatible changes.
+  #
+  # You should not change this value, even if you update Home Manager. If you do
+  # want to update the value, then make sure to first check the Home Manager
+  # release notes.
+  home.stateVersion = "25.05"; # Please read the comment before changing.
 }
