@@ -14,6 +14,7 @@
     libsecret
     git-credential-libsecret
     gnome.seahorse
+    # obsidian
   ];
 
 }

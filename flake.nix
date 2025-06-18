@@ -51,8 +51,8 @@
         else inputs.nixpkgs-unstable.lib;
 
       home-manager = if ((systemSettings.profile == "homelab") || (systemSettings.profile == "work"))
-        then inputs.home-manager-stable
-        else inputs.home-manager-unstable;
+        then inputs.home-manager-stable.nixosModules.home-manager
+        else inputs.home-manager-unstable.nixosModules.home-manager;
 
       plasma-manager = if ((systemSettings.profile == "homelab") || (systemSettings.profile == "work"))
         then inputs.plasma-manager-stable
@@ -69,21 +69,6 @@
       );
     in
       {
- 	homeConfigurations = {
-        	user = home-manager.lib.homeManagerConfiguration {
-          		inherit pkgs;
-          		modules = [
-            		(./. + "/profiles" + ("/" + systemSettings.profile) + "/home.nix") # load home.nix from selected PROFILE
-          		];
-          		extraSpecialArgs = {
-            			# pass config variables from above
-            			inherit pkgs-stable;
-            			inherit systemSettings;
-            			inherit userSettings;
-            			inherit inputs;
-          		};
-        	};
-	};
 
 	nixosConfigurations = {
         nixos = lib.nixosSystem {
@@ -98,6 +83,7 @@
             inherit systemSettings;
             inherit userSettings;
             inherit inputs;
+	    home-manager = home-manager;
           };
         };
       };
