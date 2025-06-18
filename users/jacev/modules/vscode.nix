@@ -10,6 +10,7 @@
     extensions = with pkgs.vscode-extensions; [
       ms-python.python
       matangover.mypy
+      vscodevim.vim
       ];
     };
   };
