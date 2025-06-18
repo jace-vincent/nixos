@@ -71,7 +71,8 @@
       {
 
 	nixosConfigurations = {
-        nixos = lib.nixosSystem {
+
+        vm = lib.nixosSystem {
           system = systemSettings.system;
           modules = [ 
  		(./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
@@ -79,11 +80,27 @@
           specialArgs = {
             inherit pkgs-stable;
             inherit pkgs-unstable;
-            fontPkg = pkgs.intel-one-mono;
             inherit systemSettings;
             inherit userSettings;
             inherit inputs;
-	    home-manager = home-manager;
+            fontPkg = pkgs.intel-one-mono;
+	    machine = "vm";
+          };
+        };
+
+        laptop = lib.nixosSystem {
+          system = systemSettings.system;
+          modules = [ 
+ 		(./. + "/profiles" + ("/" + systemSettings.profile) + "/configuration.nix")
+	  ];
+          specialArgs = {
+            inherit pkgs-stable;
+            inherit pkgs-unstable;
+            inherit systemSettings;
+            inherit userSettings;
+            inherit inputs;
+            fontPkg = pkgs.intel-one-mono;
+	    machine = "laptop";
           };
         };
       };

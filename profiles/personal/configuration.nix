@@ -9,9 +9,19 @@
     [ # Include the results of the hardware scan.
       ../../system/hardware-configuration.nix
       inputs.home-manager-unstable.nixosModules.home-manager
+      ../../modules/bootloader.nix
     ];
 
   nix.settings.experimental-features = ["nix-command" "flakes"];
+
+  # Bootloader - uncomment when on Laptop
+  # boot.loader.systemd-boot.enable = true;
+  # boot.loader.efi.canTouchEfiVariables = true;
+  
+  # Bootloader - uncomment when on VM
+  # boot.loader.grub.enable = true;
+  # boot.loader.grub.device = "/dev/sda";
+  # boot.loader.grub.useOSProber = true;
 
   networking.hostName = "nixos"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
