@@ -20,11 +20,11 @@
   # environment.
   home.packages = [
     # pkgs.libsecret
-    # pkgs.gitAndTools.git-credential-libsecret
-    # pkgs.gnome.seahorse
+    # pkgs.seahorse
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
     pkgs.hello
+    pkgs.obsidian
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
